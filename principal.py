@@ -24,7 +24,6 @@ from skimage import filters
 from skimage import exposure
 
 import labeling
-import centroid
 import caracteristicas
 
 def gaussian(imagem):
@@ -44,10 +43,11 @@ def otsu(img):
 	print('Valor do melhor limiar:',val)
 	return val
 
-im = cv2.imread('contorno.jpg')
+im = cv2.imread('estrelas2.jpg')
 imgray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
 
-imagemColorida = mascaraCinza = copy(im)
+imagemColorida = copy(im)
+imagemCinza = copy(imgray)
 
 objetos = []
 
@@ -61,10 +61,10 @@ modelo_objeto = {
 	"compacidade": 0
 }
 
-imgray = gaussian(imgray)
+#imgray = gaussian(imgray)
 #imgray = cv2.medianBlur(imgray,5)
 
-mascaraCinza = copy(imgray)
+
 
 kernel = np.ones((3,3),np.uint8)
 limiar = otsu(imgray) # Encontra o melhor limiar
@@ -78,11 +78,11 @@ img = np.array(img, dtype=np.uint16)
 ''' -------------------------------- TESTE - transformação de 8-bits para 16-bits -------------------------------- '''
 
 #################### LIMIARIZAÇÃO #################
-limiar, img = cv2.threshold(img,90,255,cv2.THRESH_BINARY)
-#limiar, img = cv2.threshold(img,limiar,65025,cv2.THRESH_BINARY)
+#limiar, img = cv2.threshold(img,90,255,cv2.THRESH_BINARY)
+limiar, img = cv2.threshold(img,limiar,65025,cv2.THRESH_BINARY)
 
 ################# EROSAO/ABERTURA #################
-tratada = cv2.erode(img, kernel, iterations = 1)
+#tratada = cv2.erode(img, kernel, iterations = 1)
 #tratada = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
 
 #mascara = copy(tratada)
@@ -101,18 +101,18 @@ labeling.pintar(altura, largura, mascara, qtd_labels) #Pintar | Passando a label
 
 rotulos = labeling.contar(altura, largura, mascara) #Contar | Percorre cada pixel e armazena o rotulo de cada um se não for background ou se não for um rótulo previamente percorrido.
 
-labeling.pintarColorido(imagemColorida, rotulos, altura, largura, mascara)
+#labeling.pintarColorido(imagemColorida, rotulos, altura, largura, mascara)
 
 ''' ---- testes de funções ---- '''
 
 #centroid.encontrarEixos(altura, largura, mascara, rotulos, objetos, img)
 
-caracteristicas.encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, mascaraCinza, modelo_objeto)
+caracteristicas.encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, imagemColorida, imagemCinza, modelo_objeto)
 
-for i in objetos:
+'''for i in objetos:
 	print()
 	print(i)
-	print()
+	print()'''
 	
 ''' --------------------------- '''		
 
@@ -130,7 +130,7 @@ print('qtds equivalencias:',equi_count)
 print('qtds objtos:',qtd_labels - equi_count)
 #print(mascara)
 
-cv2.imwrite("saida.png", mascara)
+cv2.imwrite("saida.png", imagemColorida)
 
 result = cv2.imread('saida.png')
 imagem = Image.fromarray(result)
