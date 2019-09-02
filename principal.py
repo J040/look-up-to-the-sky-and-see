@@ -26,6 +26,7 @@ from skimage import exposure
 import labeling
 import caracteristicas
 
+#Trocar para o laplace?
 def gaussian(imagem):
 	print('Gaussian...')
 	kernel = np.ones((5,5),np.float32)/25
@@ -43,11 +44,8 @@ def otsu(img):
 	print('Valor do melhor limiar:',val)
 	return val
 
-im = cv2.imread('estrelas2.jpg')
+im = cv2.imread('excentricidade.png')
 imgray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-
-imagemColorida = copy(im)
-imagemCinza = copy(imgray)
 
 objetos = []
 
@@ -58,13 +56,13 @@ modelo_objeto = {
 	"retangulo": [],
 	"centroide": [],
 	"variancia": 0,
-	"compacidade": 0
+	"compacidade": 0,
+	"excentricidade": 0,
+	"retangularidade": 0
 }
 
 #imgray = gaussian(imgray)
 #imgray = cv2.medianBlur(imgray,5)
-
-
 
 kernel = np.ones((3,3),np.uint8)
 limiar = otsu(imgray) # Encontra o melhor limiar
@@ -75,7 +73,17 @@ limiar = otsu(imgray) # Encontra o melhor limiar
 img = np.int16(imgray) 
 img = np.array(img, dtype=np.uint16)
 
+imagemColorida = copy(im)
+#imagemColorida = np.int16(imagemColorida)
+#imagemColorida = np.array(imagemColorida, dtype=np.uint16)
+
+imagemCinza = copy(imgray)
+#imagemCinza = np.int16(imagemCinza)
+#imagemCinza = np.array(imagemCinza, dtype=np.uint16)
+
 ''' -------------------------------- TESTE - transformação de 8-bits para 16-bits -------------------------------- '''
+
+
 
 #################### LIMIARIZAÇÃO #################
 #limiar, img = cv2.threshold(img,90,255,cv2.THRESH_BINARY)
@@ -109,10 +117,10 @@ rotulos = labeling.contar(altura, largura, mascara) #Contar | Percorre cada pixe
 
 caracteristicas.encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, imagemColorida, imagemCinza, modelo_objeto)
 
-'''for i in objetos:
+for i in objetos:
 	print()
 	print(i)
-	print()'''
+	print()
 	
 ''' --------------------------- '''		
 
@@ -128,9 +136,9 @@ print()
 print('qtds labels:',qtd_labels)
 print('qtds equivalencias:',equi_count)
 print('qtds objtos:',qtd_labels - equi_count)
-#print(mascara)
 
-cv2.imwrite("saida.png", imagemColorida)
+#cv2.imwrite("saida.png", mascara)
+cv2.imwrite("saida.png", imagemCinza)#mascara)#imagemColorida)
 
 result = cv2.imread('saida.png')
 imagem = Image.fromarray(result)

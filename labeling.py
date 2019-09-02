@@ -91,19 +91,12 @@ def procurarEquivalencias(altura,largura,mascara):
 	return equivalencias, qtd_labels, equi_count
 	
 def rotular(altura, largura, mascara, equivalencias):
-	#print(equivalencias)	
 	for i in np.arange(altura):
-		for j in np.arange(largura): 	
-			#print(i,j,'=',mascara[i][j], len(equivalencias))
+		for j in np.arange(largura):
 			if mascara[i][j] != 0:
-				#print(i,j,'=',mascara[i][j],':',equivalencias[mascara[i][j]-1])
-				#print('Tamanho vetor:', len(equivalencias[mascara[i][j]-1]))
-				#print('Menor:', min(equivalencias[mascara[i][j]-1]))
-				#print('-')
 				mascara[i][j] = min(equivalencias[mascara[i][j]-1])
 
-def pintar(altura, largura, mascara, qtd_labels):
-	
+def pintar(altura, largura, mascara, qtd_labels): # Funciona apenas para as imagens 16bits
 	for i in np.arange(altura):
 		for j in np.arange(largura):
 			if mascara[i][j] != 0:

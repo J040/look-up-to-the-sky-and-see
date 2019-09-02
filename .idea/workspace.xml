@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="626c0fd0-855f-4bb6-9f14-2c28cd6f322b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/codigo-cadeia.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/compacidade2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/PyCharm.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PyCharm.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/watershed.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caracteristicas.py" beforeDir="false" afterPath="$PROJECT_DIR$/caracteristicas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/codigo-cadeia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compacidade2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/labeling.py" beforeDir="false" afterPath="$PROJECT_DIR$/labeling.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/principal.py" beforeDir="false" afterPath="$PROJECT_DIR$/principal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saida.png" beforeDir="false" afterPath="$PROJECT_DIR$/saida.png" afterDir="false" />
     </list>
@@ -16,6 +16,13 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -88,7 +95,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

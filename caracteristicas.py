@@ -14,8 +14,28 @@ import numpy as np
 import imutils
 from copy import copy, deepcopy
 import math
+from skimage.feature import peak_local_max
+from skimage.morphology import watershed
+from scipy import ndimage
 
-def calcularCompacidade(codigo_cadeia, area):
+import labeling
+
+def pintarObjetosCirculares(mascara, objeto, imagemColorida):
+
+	if objeto["compacidade"] > 9 and objeto["compacidade"] < 14:
+		#print('Objeto:', objeto["objeto"])
+		#print('Compacidade:', objeto["compacidade"])
+
+		inferiorD = objeto["retangulo"][0]  # = [y,x]
+		inferiorE = objeto["retangulo"][1]  # = [y,x]
+		superiorD = objeto["retangulo"][2]  # = [y,x]
+		superiorE = objeto["retangulo"][3]  # = [y,x]
+		for y in np.arange(superiorE[0], inferiorE[0] + 1):
+			for x in np.arange(superiorE[1], superiorD[1] + 1):
+				if mascara[y][x] != 0:
+					imagemColorida[y][x] = [255, 0, 0]
+
+def calcularCompacidade(codigo_cadeia, objeto):
 	N_p = []
 	N_i = []
 
@@ -29,8 +49,8 @@ def calcularCompacidade(codigo_cadeia, area):
 	#print('\nNp:', len(N_p))
 	#print('Ni:', len(N_i))
 	#print('Area:', area)
-	compacidade = (perimetro**2)/area
-	return compacidade
+	compacidade = (perimetro**2)/objeto["area"]
+	objeto["compacidade"] = compacidade
 
 def gerarCodigoCadeia(objeto, mascara, borda):
 
@@ -153,7 +173,6 @@ def assinatura(mascara, objeto):
 						dist_pontos_borda.append(math.sqrt(distancia))
 						pixels_borda.append([y,x])
 
-				
 	for n in dist_pontos_borda:
 		somatorio = sum(dist_pontos_borda)/len(dist_pontos_borda)
 	
@@ -169,64 +188,56 @@ def assinatura(mascara, objeto):
 	#compacidadeQuadrado(pixels_borda)
 	
 	return pixels_borda, dist_pontos_borda
-								
-'''def mapaDistancia(mascara, objeto, img):
-	#kernel = np.ones((3,3),np.uint8)
-	
-	if objeto[1] > 9:
-		inferiorD = objeto[2][0] #[y,x]
-		inferiorE = objeto[2][1] #[y,x]
-		superiorD = objeto[2][2] #[y,x]
-		superiorE = objeto[2][3] #[y,x]
-			
-		for y in np.arange(superiorE[0],inferiorE[0]+1):
-			for x in np.arange(superiorE[1],superiorD[1]+1):							
-				if img[y][x] != 0:
-					#print('ENTROU',y,x, 'tamanho:', len(mascara)-2, len(mascara[0])-2)
-					if y <= (len(img)-2): 
-						if x <= (len(img[0])-2):
-							if y > 0:	
-								if x > 0:	
-									#print('ENTROU NOVAMENTE',y,x, 'tamanho:', len(mascara)-2, len(mascara[0])-2)
-									vizinhos = [img[y-1][x-1],img[y-1][x],img[y-1][x+1],img[y][x-1],img[y][x+1],img[y+1][x-1],img[y+1][x],img[y+1][x+1]]			
-									img[y][x] = min(vizinhos) + 5000
-				
-		
-		# Maior Y e X são referentes ao ponto inferior direito do retangulo envolvente
-		maiorY = inferiorD[0]
-		maiorX = inferiorD[1]
-		# Menor Y e X são referentes ao ponto superior esquerdo do retangulo envolvente
-		menorY = superiorE[0]
-		menorX = superiorE[1]
-		
-		auxY = maiorY
-		auxX = maiorX
-		
-		#print('Ponto Inicial:',menorY, menorX,'Ponton Final:',maiorY, maiorX) # Do retangulo envolvente
-		
-		for y in np.arange(maiorY - menorY):		
-			auxX = maiorX
-			for x in np.arange(maiorX - menorX):			
-				if img[auxY][auxX] != 0:
-					#print('ENTROU',y,x, 'tamanho:', len(img)-2, len(img[0])-2)
-					if y <= (len(img)-2): 
-						if x <= (len(img[0])-2):
-							if y > 0:	
-								if x > 0:	
-									#print('ENTROU NOVAMENTE',y,x, 'tamanho:', len(img)-2, len(img[0])-2)
-									vizinhos = [img[auxY-1][auxX-1],img[auxY-1][auxX],img[auxY-1][auxX+1],img[auxY][auxX-1],img[auxY][auxX+1],img[auxY+1][auxX-1],img[auxY+1][auxX],img[auxY+1][auxX+1]]			
-									#print(vizinhos, 'pixel:', auxY,auxX)
-									#print('antigo', img[auxY][auxX], min(vizinhos))
-									img[auxY][auxX] = min(vizinhos) + 5000
-									#print('novo', img[auxY][auxX])
-				auxX = auxX-1
-			auxY = auxY-1'''
+
+def watershed(imagemCinza, imagemPontosMax):
+	pass
+
+def encontrarLocalMax(imagemCinza):
+	imagemPontosMax = copy(imagemCinza)
+
+	for y in range(len(imagemPontosMax) - 1):
+		for x in range(len(imagemPontosMax[0]) - 1):
+
+			elementosKernel = []
+			pos_elementos = []
+
+			for i in range(10):  # tam kernel
+				for j in range(10):  # tam kernel
+					novo_y = (y + 1) - i
+					novo_x = (x + 1) - j
+					elementosKernel.append(imagemCinza[novo_y][novo_x])
+					pos_elementos.append([novo_y, novo_x])
+
+			for i in range(10):
+				for j in range(10):
+					novo_y = (y + 1) - i
+					novo_x = (x + 1) - j
+					if imagemPontosMax[novo_y][novo_x] != max(elementosKernel):
+						imagemPontosMax[novo_y][novo_x] = 0
+
+	equivalencias, qtd_pontos, equi_count = labeling.procurarEquivalencias(len(imagemPontosMax) - 1, len(imagemPontosMax[0]) - 1, imagemPontosMax)
+	rotulo = int(255 / qtd_pontos)
+
+	for y in range(len(imagemPontosMax) - 1):
+		for x in range(len(imagemPontosMax[0]) - 1):
+			for i in range(qtd_pontos):
+				if imagemPontosMax[y][x] == equivalencias[i][0]:
+					imagemPontosMax[y][x] = rotulo * equivalencias[i][0]
+
+	return imagemPontosMax, qtd_pontos
+
+def mapaDistancia(imagemCinza, mascara, imagemColorida):
+	imagemCinza_aux = copy(imagemCinza)
+	imagemCinza_aux = cv2.distanceTransform(imagemCinza_aux, cv2.DIST_L2, 3)
+	for y in range(len(imagemCinza)):
+		for x in range(len(imagemCinza[0])):
+			imagemCinza[y][x] = int(imagemCinza_aux[y][x])
 
 def pintarRetangulo(mascara,maiorY,menorY,maiorX,menorX, objeto, imagemColorida):
 	#maiorY remete a parte abaixo do objeto
 	#maiorX parte da direita do objeto
 
-	if objeto["compacidade"] > 9 and objeto["compacidade"] < 14:
+	#if objeto["compacidade"] > 9 and objeto["compacidade"] < 14: # REMOVER ?
 
 		aux = copy(menorX)
 		aux2 = copy(menorY)
@@ -297,14 +308,12 @@ def encontrarEixos(altura, largura, mascara, rotulos, indice):
 	
 	return EIXO_Y, EIXO_X, maiorY, maiorX, menorY, menorX
 				
-def encontrarCentroide(altura, largura, mascara, rotulos, indice):
-	
-	objeto = []		
+def encontrarCentroideArea(altura, largura, mascara, rotulos, indice, objeto):
+
 	area = 0
 	somatorioX = 0
 	somatorioY = 0
-	
-	############# Centroide
+
 	for y in np.arange(altura):	
 		for x in np.arange(largura):	
 			if mascara[y][x] == rotulos[indice]:
@@ -314,66 +323,77 @@ def encontrarCentroide(altura, largura, mascara, rotulos, indice):
 
 	if area == 0:
 		area = 1
+
+	objeto["area"] = area
+
 	posX = int(somatorioX / area)
 	posY = int(somatorioY / area)
-	
-	return posY, posX, somatorioY, somatorioX, area
 
-def encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, imagemColorida, mascaraCinza, modelo_objeto):
+	objeto["centroide"] = [posY,posX]
+	return posY, posX, area
+
+def encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, imagemColorida, imagemCinza, modelo_objeto):
 
 	for indice in np.arange(len(rotulos)):
 	
 		EIXO_Y, EIXO_X, maiorY, maiorX, menorY, menorX = encontrarEixos(altura, largura, mascara, rotulos, indice)
-		posY, posX, somatorioY, somatorioX, area = encontrarCentroide(altura, largura, mascara, rotulos, indice)
-	
+
 		objeto = copy(modelo_objeto)
-		
+
+		posY, posX, area = encontrarCentroideArea(altura, largura, mascara, rotulos, indice, objeto)
+
 		objeto["objeto"] = indice
 		objeto["label"] = rotulos[indice]
-		objeto["area"] = area
 		objeto["retangulo"] = [[maiorY,maiorX],[maiorY,menorX],[menorY,maiorX],[menorY,menorX]]
-		objeto["centroide"] = [posY,posX]
-		
+
 		pixels_borda, dist_pontos_borda = assinatura(mascara, objeto)
-		auxiliar = variancia(mascaraCinza, objeto)
+		auxiliar = variancia(imagemCinza, objeto)
 		
 		objeto["variancia"] = auxiliar
 
 		codigo_cadeia = gerarCodigoCadeia(objeto, mascara, pixels_borda)
 
-		objeto["compacidade"] = calcularCompacidade(codigo_cadeia,area)
+		''' Compacidade '''
+		calcularCompacidade(codigo_cadeia, objeto)
 
-		if objeto["compacidade"] > 9 and objeto["compacidade"] < 14:
-			print('Objeto:',objeto["objeto"])
-			print('Compacidade:',objeto["compacidade"])
+		if len(EIXO_Y) > len(EIXO_X):
+			maior_eixo = len(EIXO_Y)
+			menor_eixo = len(EIXO_X)
+		else:
+			maior_eixo = len(EIXO_X)
+			menor_eixo = len(EIXO_Y)
 
-			inferiorD = objeto["retangulo"][0]  # = [y,x]
-			inferiorE = objeto["retangulo"][1]  # = [y,x]
-			superiorD = objeto["retangulo"][2]  # = [y,x]
-			superiorE = objeto["retangulo"][3]  # = [y,x]
-			for y in np.arange(superiorE[0], inferiorE[0] + 1):
-				for x in np.arange(superiorE[1], superiorD[1] + 1):
-					if mascara[y][x] != 0:
-						imagemColorida[y][x] = [0,0,255]
+		objeto["excentricidade"] = maior_eixo / menor_eixo
 
-			#pintarObjetosCirculares(objeto, mascara, imagemColorida, altura, largura)
+		L1 = maiorY - menorY
+		L2 = maiorX - menorX
+		retangularidade = area / (L1*L2)
+		objeto["retangularidade"] = retangularidade
 
-		pintarRetangulo(mascara, maiorY+1, menorY-1, maiorX+1, menorX-1, objeto, imagemColorida)
+		mapaDistancia(imagemCinza, mascara, imagemColorida)
 
-		
+		imagemPontosMax, qtd_pontos = encontrarLocalMax(imagemCinza)
+
+		cv2.imshow('Local Max', imagemPontosMax)
+		cv2.waitKey(0)
+		cv2.destroyAllWindows()
+
+		#pintarObjetosCirculares(mascara, objeto, imagemColorida)
+		#pintarRetangulo(mascara, maiorY+1, menorY-1, maiorX+1, menorX-1, objeto, imagemColorida)
+
 		objetos.append(objeto)
 		
 		# PINTAR CETROID ----------------------------------------------------
-		
 		#mascara[ posY-1 ][ posX-1 ] = 65000
 		#mascara[ posY][ posX-1 ] = 65000
-		#mascara[ posY+1 ][ posX-1 ] = 65000		
+		#mascara[ posY+1 ][ posX-1 ] = 65000
 		#mascara[ posY-1 ][ posX] = 65000
-		mascara[ posY][ posX] = 65025
+		mascara[posY][posX] = 65025
+		imagemColorida[posY][posX] = [255,255,255]
 		#mascara[ posY+1 ][ posX] = 65000
 		#mascara[ posY-1 ][ posX+1 ] = 65000
 		#mascara[ posY][ posX+1 ] = 65000
-		#mascara[ posY+1 ][ posX+1 ] = 65000					
+		#mascara[ posY+1 ][ posX+1 ] = 65000
 	
 
 		
