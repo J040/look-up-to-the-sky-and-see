@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="626c0fd0-855f-4bb6-9f14-2c28cd6f322b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/watershed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/caracteristicas.py" beforeDir="false" afterPath="$PROJECT_DIR$/caracteristicas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/codigo-cadeia.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compacidade2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/labeling.py" beforeDir="false" afterPath="$PROJECT_DIR$/labeling.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distancia.png" beforeDir="false" afterPath="$PROJECT_DIR$/distancia.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/principal.py" beforeDir="false" afterPath="$PROJECT_DIR$/principal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saida.png" beforeDir="false" afterPath="$PROJECT_DIR$/saida.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saida2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/watershed.py" beforeDir="false" afterPath="$PROJECT_DIR$/watershed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/watershed3.png" beforeDir="false" afterPath="$PROJECT_DIR$/watershed3.png" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

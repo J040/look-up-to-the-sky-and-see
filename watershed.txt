@@ -1,0 +1,41 @@
+
+* A set of markers, pixels where the flooding shall start, are chosen. Each is given a different label.
+
+* The neighboring pixels of each marked area are inserted into a priority queue with a priority level corresponding to the gradient magnitude of the pixel.
+
+* The pixel with the highest priority level is extracted from the priority queue. If the neighbors of the extracted pixel that have already been labeled all have the same label, then the pixel is labeled with their label. All non-marked neighbors that are not yet in the priority queue are put into the priority queue.
+
+* Redo step 3 until the priority queue is empty.
+
+---------------------------------------------------------------------------------
+
+1) Achar conjunto de pixels de ponto máximo local para começar o "alagamento".
+	- Para cada pixel(ponto), um rótulo diferente é dado.
+
+2) Inserir os vizinhos de cada "ponto" na "lista de prioridade" (vizinhos) e ordena-los de acordo com a intensidade de cada vizinho. Onde o primeiro pixel da lista de prioridade deve ser o com maior valor.
+
+-
+
+3) Extrair o pixel com a maior valor (primeiro da lista de prioridade). 
+	
+	- Se todos os vizinhos do pixel(ponto) extraído que estiverem rotulados tiverem o 		  mesmo rótulo, então rotular o pixel(ponto) com o mesmo rótulo.	
+	
+	- Todos os vizinhos não rotulados que ainda não tiverem sido inseridos na "lista de 		  prioridade" são inseridos na "Lista de prioridade".
+
+4) Repetir passo 3 até a "lista de prioridade" estiver vazia.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

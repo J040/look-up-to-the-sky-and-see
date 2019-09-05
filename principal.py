@@ -25,6 +25,7 @@ from skimage import exposure
 
 import labeling
 import caracteristicas
+import watershed
 
 #Trocar para o laplace?
 def gaussian(imagem):
@@ -44,8 +45,14 @@ def otsu(img):
 	print('Valor do melhor limiar:',val)
 	return val
 
-im = cv2.imread('excentricidade.png')
-imgray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+im = cv2.imread('watershed2.png')
+
+imagemCinza, imagem_borda, imagemPontosMax, imagemWatershed = watershed.iniciar(im)
+
+#imgray = cv2.cvtColor(imagemWatershed, cv2.COLOR_BGR2GRAY)
+imgray = copy(imagemWatershed)
+imagemColorida = copy(im)
+imagemCinza = copy(imagemWatershed)
 
 objetos = []
 
@@ -67,23 +74,15 @@ modelo_objeto = {
 kernel = np.ones((3,3),np.uint8)
 limiar = otsu(imgray) # Encontra o melhor limiar
 
+
+
 ''' -------------------------------- TESTE - transformação de 8-bits para 16-bits -------------------------------- '''
 
 ''' PARECE SER O SUFICIENTE PARA TRANSFORMAR UMMA IMAGEM DE 8bits EM UMA IMAGEM DE 16bits'''
 img = np.int16(imgray) 
 img = np.array(img, dtype=np.uint16)
 
-imagemColorida = copy(im)
-#imagemColorida = np.int16(imagemColorida)
-#imagemColorida = np.array(imagemColorida, dtype=np.uint16)
-
-imagemCinza = copy(imgray)
-#imagemCinza = np.int16(imagemCinza)
-#imagemCinza = np.array(imagemCinza, dtype=np.uint16)
-
 ''' -------------------------------- TESTE - transformação de 8-bits para 16-bits -------------------------------- '''
-
-
 
 #################### LIMIARIZAÇÃO #################
 #limiar, img = cv2.threshold(img,90,255,cv2.THRESH_BINARY)
@@ -107,7 +106,8 @@ labeling.rotular(altura, largura, mascara, equivalencias)
 
 labeling.pintar(altura, largura, mascara, qtd_labels) #Pintar | Passando a labels para calcular qual a melhor divisão de cores.
 
-rotulos = labeling.contar(altura, largura, mascara) #Contar | Percorre cada pixel e armazena o rotulo de cada um se não for background ou se não for um rótulo previamente percorrido.
+#rotulos = labeling.contar(altura, largura, mascara) #Contar | Percorre cada pixel e armazena o rotulo de cada um se não for background ou se não for um rótulo previamente percorrido.
+rotulos = labeling.contar(altura, largura, imagemCinza) #Contar | Percorre cada pixel e armazena o rotulo de cada um se não for background ou se não for um rótulo previamente percorrido.
 
 #labeling.pintarColorido(imagemColorida, rotulos, altura, largura, mascara)
 
@@ -115,7 +115,7 @@ rotulos = labeling.contar(altura, largura, mascara) #Contar | Percorre cada pixe
 
 #centroid.encontrarEixos(altura, largura, mascara, rotulos, objetos, img)
 
-caracteristicas.encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, imagemColorida, imagemCinza, modelo_objeto)
+imagemWatershed = caracteristicas.encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, imagemColorida, imagemCinza, modelo_objeto)
 
 for i in objetos:
 	print()
@@ -137,9 +137,23 @@ print('qtds labels:',qtd_labels)
 print('qtds equivalencias:',equi_count)
 print('qtds objtos:',qtd_labels - equi_count)
 
+cv2.imwrite("pontos.png", imagemPontosMax)
+cv2.imwrite("distancia.png", imagemCinza)
+cv2.imwrite("contorno.png", imagem_borda)
+#cv2.imwrite("watershed-resultado.png", imagemWatershed)
+
+cv2.imshow('Imagem Cinza', imagemCinza)
+cv2.imshow('Nova Imagem', imagem_borda)
+cv2.imshow('Local Max', imagemPontosMax)
+#cv2.imshow('Watershed', imagemWatershed)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+
 #cv2.imwrite("saida.png", mascara)
-cv2.imwrite("saida.png", imagemCinza)#mascara)#imagemColorida)
+cv2.imwrite("saida.png", imagemCinza)
 
 result = cv2.imread('saida.png')
 imagem = Image.fromarray(result)
-imagem.show()
+#imagem.show()

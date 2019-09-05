@@ -189,9 +189,6 @@ def assinatura(mascara, objeto):
 	
 	return pixels_borda, dist_pontos_borda
 
-def watershed(imagemCinza, imagemPontosMax):
-	pass
-
 def encontrarLocalMax(imagemCinza):
 	imagemPontosMax = copy(imagemCinza)
 
@@ -233,41 +230,56 @@ def mapaDistancia(imagemCinza, mascara, imagemColorida):
 		for x in range(len(imagemCinza[0])):
 			imagemCinza[y][x] = int(imagemCinza_aux[y][x])
 
-def pintarRetangulo(mascara,maiorY,menorY,maiorX,menorX, objeto, imagemColorida):
+def pintarRetangulo(mascara,maiorY,menorY,maiorX,menorX, objeto, imagemColorida, imagemCinza):
 	#maiorY remete a parte abaixo do objeto
 	#maiorX parte da direita do objeto
 
 	#if objeto["compacidade"] > 9 and objeto["compacidade"] < 14: # REMOVER ?
 
-		aux = copy(menorX)
-		aux2 = copy(menorY)
+	aux = copy(menorX)
+	aux2 = copy(menorY)
 
-		mascara[maiorY][maiorX] = 65000 #inferior direito
-		mascara[maiorY][menorX] = 65000 #inferior esquerdo
-		mascara[menorY][maiorX] = 65000 #superior direito
-		mascara[menorY][menorX] = 65000 #superior esquerdo
+	mascara[maiorY][maiorX] = 65000 #inferior direito
+	mascara[maiorY][menorX] = 65000 #inferior esquerdo
+	mascara[menorY][maiorX] = 65000 #superior direito
+	mascara[menorY][menorX] = 65000 #superior esquerdo
 
-		imagemColorida[maiorY][maiorX] = [255,255,255]
+	imagemCinza[maiorY][maiorX] = 255
+	imagemCinza[maiorY][menorX] = 255
+	imagemCinza[menorY][maiorX] = 255
+	imagemCinza[menorY][menorX] = 255
+
+	imagemColorida[maiorY][maiorX] = [255,255,255]
+	imagemColorida[maiorY][menorX] = [255,255,255]
+	imagemColorida[menorY][maiorX] = [255,255,255]
+	imagemColorida[menorY][menorX] = [255,255,255]
+
+	while(maiorX != menorX):
+		mascara[maiorY][menorX] = 65000
+		mascara[menorY][menorX] = 65000
+
+		imagemCinza[maiorY][menorX] = 255
+		imagemCinza[menorY][menorX] = 255
+
 		imagemColorida[maiorY][menorX] = [255,255,255]
+		imagemColorida[menorY][menorX] = [255,255,255]
+
+		menorX += 1
+
+	menorX = aux
+	while(maiorY != menorY):
+		mascara[menorY][maiorX] = 65000
+		mascara[menorY][menorX] = 65000
+
+		imagemCinza[menorY][maiorX] = 255
+		imagemCinza[menorY][menorX] = 255
+
 		imagemColorida[menorY][maiorX] = [255,255,255]
 		imagemColorida[menorY][menorX] = [255,255,255]
 
-		while(maiorX != menorX):
-			mascara[maiorY][menorX] = 65000
-			mascara[menorY][menorX] = 65000
-			imagemColorida[maiorY][menorX] = [255,255,255]
-			imagemColorida[menorY][menorX] = [255,255,255]
-			menorX += 1
+		menorY += 1
 
-		menorX = aux
-		while(maiorY != menorY):
-			mascara[menorY][maiorX] = 65000
-			mascara[menorY][menorX] = 65000
-			imagemColorida[menorY][maiorX] = [255,255,255]
-			imagemColorida[menorY][menorX] = [255,255,255]
-			menorY += 1
-
-		menorY = aux2
+	menorY = aux2
 
 def encontrarEixos(altura, largura, mascara, rotulos, indice):
 	
@@ -332,26 +344,31 @@ def encontrarCentroideArea(altura, largura, mascara, rotulos, indice, objeto):
 	objeto["centroide"] = [posY,posX]
 	return posY, posX, area
 
+
 def encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, imagemColorida, imagemCinza, modelo_objeto):
 
 	for indice in np.arange(len(rotulos)):
 	
-		EIXO_Y, EIXO_X, maiorY, maiorX, menorY, menorX = encontrarEixos(altura, largura, mascara, rotulos, indice)
+		#EIXO_Y, EIXO_X, maiorY, maiorX, menorY, menorX = encontrarEixos(altura, largura, mascara, rotulos, indice)
+		EIXO_Y, EIXO_X, maiorY, maiorX, menorY, menorX = encontrarEixos(altura, largura, imagemCinza, rotulos, indice)
 
 		objeto = copy(modelo_objeto)
 
-		posY, posX, area = encontrarCentroideArea(altura, largura, mascara, rotulos, indice, objeto)
+		#posY, posX, area = encontrarCentroideArea(altura, largura, mascara, rotulos, indice, objeto)
+		posY, posX, area = encontrarCentroideArea(altura, largura, imagemCinza, rotulos, indice, objeto)
 
 		objeto["objeto"] = indice
 		objeto["label"] = rotulos[indice]
 		objeto["retangulo"] = [[maiorY,maiorX],[maiorY,menorX],[menorY,maiorX],[menorY,menorX]]
 
-		pixels_borda, dist_pontos_borda = assinatura(mascara, objeto)
+		#pixels_borda, dist_pontos_borda = assinatura(mascara, objeto)
+		pixels_borda, dist_pontos_borda = assinatura(imagemCinza, objeto)
 		auxiliar = variancia(imagemCinza, objeto)
 		
 		objeto["variancia"] = auxiliar
 
-		codigo_cadeia = gerarCodigoCadeia(objeto, mascara, pixels_borda)
+		#codigo_cadeia = gerarCodigoCadeia(objeto, mascara, pixels_borda)
+		codigo_cadeia = gerarCodigoCadeia(objeto, imagemCinza, pixels_borda)
 
 		''' Compacidade '''
 		calcularCompacidade(codigo_cadeia, objeto)
@@ -363,20 +380,22 @@ def encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, imagemC
 			maior_eixo = len(EIXO_X)
 			menor_eixo = len(EIXO_Y)
 
-		objeto["excentricidade"] = maior_eixo / menor_eixo
+		#objeto["excentricidade"] = maior_eixo / menor_eixo ARRUMAR <------------------------------------------------ ARRUMAR
+
+		pintarRetangulo(mascara,maiorY,menorY, maiorX, menorX, objeto, imagemColorida, imagemCinza)
 
 		L1 = maiorY - menorY
 		L2 = maiorX - menorX
-		retangularidade = area / (L1*L2)
-		objeto["retangularidade"] = retangularidade
+		#retangularidade = area / (L1*L2) ARRUMAR <------------------------------------------------ ARRUMAR
+		#objeto["retangularidade"] = retangularidade ARRUMAR <------------------------------------------------ ARRUMAR
 
-		mapaDistancia(imagemCinza, mascara, imagemColorida)
 
-		imagemPontosMax, qtd_pontos = encontrarLocalMax(imagemCinza)
 
-		cv2.imshow('Local Max', imagemPontosMax)
-		cv2.waitKey(0)
-		cv2.destroyAllWindows()
+		#mapaDistancia(imagemCinza, mascara, imagemColorida)
+		#imagemPontosMax, qtd_pontos = encontrarLocalMax(imagemCinza)
+		#cv2.imshow('Local Max', imagemPontosMax)
+		#cv2.waitKey(0)
+		#cv2.destroyAllWindows()
 
 		#pintarObjetosCirculares(mascara, objeto, imagemColorida)
 		#pintarRetangulo(mascara, maiorY+1, menorY-1, maiorX+1, menorX-1, objeto, imagemColorida)
@@ -394,6 +413,4 @@ def encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, imagemC
 		#mascara[ posY-1 ][ posX+1 ] = 65000
 		#mascara[ posY][ posX+1 ] = 65000
 		#mascara[ posY+1 ][ posX+1 ] = 65000
-	
-
 		
