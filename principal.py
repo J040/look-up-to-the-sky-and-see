@@ -45,9 +45,13 @@ def otsu(img):
 	print('Valor do melhor limiar:',val)
 	return val
 
-im = cv2.imread('watershed2.png')
+im = cv2.imread('circulo2.png')
 
-imagemCinza, imagem_borda, imagemPontosMax, imagemWatershed = watershed.iniciar(im)
+im_cinza = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+limiar = otsu(im_cinza)
+limiar, im_limiarizada = cv2.threshold(im_cinza,limiar,255,cv2.THRESH_BINARY)
+
+imagemCinza, imagem_borda, imagemPontosMax, imagemWatershed = watershed.iniciar(im, im_limiarizada)
 
 #imgray = cv2.cvtColor(imagemWatershed, cv2.COLOR_BGR2GRAY)
 imgray = copy(imagemWatershed)
@@ -57,7 +61,7 @@ imagemCinza = copy(imagemWatershed)
 objetos = []
 
 modelo_objeto = {
-	"objeto": 0,
+	"indice": 0,
 	"label": 0,
 	"area": 0,
 	"retangulo": [],
@@ -75,30 +79,30 @@ kernel = np.ones((3,3),np.uint8)
 limiar = otsu(imgray) # Encontra o melhor limiar
 
 
-
 ''' -------------------------------- TESTE - transformação de 8-bits para 16-bits -------------------------------- '''
 
 ''' PARECE SER O SUFICIENTE PARA TRANSFORMAR UMMA IMAGEM DE 8bits EM UMA IMAGEM DE 16bits'''
-img = np.int16(imgray) 
-img = np.array(img, dtype=np.uint16)
+img = np.int16(im_limiarizada)
+img = np.array(im_limiarizada, dtype=np.uint16)
 
 ''' -------------------------------- TESTE - transformação de 8-bits para 16-bits -------------------------------- '''
 
 #################### LIMIARIZAÇÃO #################
 #limiar, img = cv2.threshold(img,90,255,cv2.THRESH_BINARY)
-limiar, img = cv2.threshold(img,limiar,65025,cv2.THRESH_BINARY)
+#limiar, img = cv2.threshold(img,limiar,65025,cv2.THRESH_BINARY)
 
 ################# EROSAO/ABERTURA #################
 #tratada = cv2.erode(img, kernel, iterations = 1)
 #tratada = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
 
 #mascara = copy(tratada)
-mascara = copy(img)
+#mascara = copy(img)
+mascara = copy(im_cinza)
 
 altura = mascara.shape[0]
 largura = mascara.shape[1]
 		
-print('aguarde... rotulando...')	
+print('aguarde... rotulando...')
 
 equivalencias, qtd_labels, equi_count = labeling.procurarEquivalencias(altura, largura, mascara)
 

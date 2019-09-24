@@ -32,53 +32,47 @@ def rotularWatershed(lista_prioridade, pix, imagemWatershed, imagemCinza):
         for j in range(3):  # tamanho kernel
             novo_y = (y + 1) - i
             novo_x = (x + 1) - j
+            if imagemWatershed[novo_y][novo_x] > 0:
+                pixel = copy(p)
+                pixel["posY"] = novo_y
+                pixel["posX"] = novo_x
+                pixel["valor"] = imagemWatershed[novo_y][novo_x]
+                rotulados.append(pixel)
 
-            if novo_y > 0 and novo_y < imagemCinza.shape[0]-1 and novo_x > 0 and novo_x < imagemCinza.shape[1]:
+    #print("rotulados:", rotulados)
 
-                if imagemWatershed[novo_y][novo_x] > 0:
+    aux = rotulados[0]["valor"] # Valor do primeiro rotulado
+    rotulos_diferentes = False
+
+    for rotulo in rotulados:
+        if rotulo["valor"] != aux:
+            #print('\nDiferente!')
+            imagemWatershed[y][x] = 0
+            rotulos_diferentes = True
+
+    if rotulos_diferentes == False:
+        imagemWatershed[y][x] = rotulo["valor"]
+        qtd += 1
+        print('Pixels pintados:', qtd)
+
+        # Inserir na "lista de prioridade" todos os vizinhos não rotulados que fazem parte do objeto
+        for i in range(3):  # tamanho kernel
+            for j in range(3):  # tamanho kernel
+                novo_y = (y + 1) - i
+                novo_x = (x + 1) - j
+                if imagemWatershed[novo_y][novo_x] == 0 and imagemCinza[novo_y][novo_x] > 0:
                     pixel = copy(p)
                     pixel["posY"] = novo_y
                     pixel["posX"] = novo_x
-                    pixel["valor"] = imagemWatershed[novo_y][novo_x]
-                    rotulados.append(pixel)
-
-    #print("rotulados:", rotulados)
-    if len(rotulados) > 0:
-        aux = rotulados[0]["valor"] # Valor do primeiro rotulado
-        rotulos_diferentes = False
-
-        for rotulo in rotulados:
-            if rotulo["valor"] != aux:
-                #print('\nDiferente!')
-                imagemWatershed[y][x] = 0
-                rotulos_diferentes = True
-
-        if rotulos_diferentes == False:
-            imagemWatershed[y][x] = rotulo["valor"]
-            qtd += 1
-            #print('Pixels pintados:', qtd)
-
-            # Inserir na "lista de prioridade" todos os vizinhos não rotulados que fazem parte do objeto
-            for i in range(3):  # tamanho kernel
-                for j in range(3):  # tamanho kernel
-                    novo_y = (y + 1) - i
-                    novo_x = (x + 1) - j
-
-                    if novo_y > 0 and novo_y < imagemCinza.shape[0] - 1 and novo_x > 0 and novo_x < imagemCinza.shape[1]:
-
-                        if imagemWatershed[novo_y][novo_x] == 0 and imagemCinza[novo_y][novo_x] > 0:
-                            pixel = copy(p)
-                            pixel["posY"] = novo_y
-                            pixel["posX"] = novo_x
-                            pixel["valor"] = imagemCinza[novo_y][novo_x]
-                            #print('\nPixel:',pixel)
-                            #print('Lista de Prioridade:',lista_prioridade)
-                            if pixel not in lista_prioridade:
-                                lista_prioridade.append(pixel)
-                                lista_prioridade.sort(key=lambda v: v['valor'], reverse=True)
+                    pixel["valor"] = imagemCinza[novo_y][novo_x]
+                    #print('\nPixel:',pixel)
+                    #print('Lista de Prioridade:',lista_prioridade)
+                    if pixel not in lista_prioridade:
+                        lista_prioridade.append(pixel)
+                        lista_prioridade.sort(key=lambda v: v['valor'], reverse=True)
     return qtd
 
-def watershed(imagemCinza, imagemWatershed, imagemPontosMax, qtd_labels):
+def watershed(imagemCinza, imagemWatershed):
     altura = len(imagemCinza)
     largura = len(imagemCinza[0])
 
@@ -105,16 +99,13 @@ def watershed(imagemCinza, imagemWatershed, imagemPontosMax, qtd_labels):
             for j in range(3):  # tamanho kernel
                 novo_y = (y + 1) - i
                 novo_x = (x + 1) - j
-
-                if novo_y > 0 and novo_y < imagemCinza.shape[0]-1 and novo_x > 0 and novo_x < imagemCinza.shape[1]:
-
-                    if imagemCinza[novo_y][novo_x] != 0:
-                        vizinho = copy(ponto)
-                        vizinho["posY"] = novo_y
-                        vizinho["posX"] = novo_x
-                        vizinho["valor"] = imagemCinza[novo_y][novo_x]
-                        if vizinho not in vizinhos and vizinho not in pontos:
-                            vizinhos.append(vizinho)
+                if imagemCinza[novo_y][novo_x] != 0:
+                    vizinho = copy(ponto)
+                    vizinho["posY"] = novo_y
+                    vizinho["posX"] = novo_x
+                    vizinho["valor"] = imagemCinza[novo_y][novo_x]
+                    if vizinho not in vizinhos and vizinho not in pontos:
+                        vizinhos.append(vizinho)
 
         for vizinho in vizinhos:
             if vizinho not in lista_prioridade and imagemWatershed[vizinho["posY"]][vizinho["posX"]] == 0 and imagemCinza[vizinho["posY"]][vizinho["posX"]] != 0:
@@ -134,46 +125,34 @@ def watershed(imagemCinza, imagemWatershed, imagemPontosMax, qtd_labels):
 
     qtd_pintados = 0
     continuar = True
-    #print('Lista de prioridade:',lista_prioridade)
+    print(lista_prioridade)
     while(continuar):
     #for i in range(3):
         y = lista_prioridade[0]["posY"]
         x = lista_prioridade[0]["posX"]
         pix = lista_prioridade.pop(0) #Remove o item na posição '0'
         #print("\nPixel retirado da lista:",pix)
-        #print('\nTamanho da lista:', len(lista_prioridade))
+        print('\nTamanho da lista:', len(lista_prioridade))
         tam_lista = len(lista_prioridade)
         qtd = rotularWatershed(lista_prioridade, pix, imagemWatershed, imagemCinza)
         qtd_pintados += qtd
         if tam_lista == 0:# or qtd_pintados == 7353:
             continuar = False
 
-
-        #print('Quantidade de pixels pintados:',qtd_pintados)
-
-    #Geração da imagem watershed colorida
-    imagemColorida2 = np.zeros((imagemWatershed.shape[0], imagemWatershed.shape[1], 3), dtype=np.uint8)
-    for y in range(imagemColorida2.shape[0]):
-        for x in range(imagemColorida2.shape[1]):
-            cor = imagemWatershed[y][x] * (256*256*256/qtd_labels)
-            imagemColorida2[y][x] = np.array([
-                cor % 256,
-                cor // 256 % 256,
-                cor // 256 // 256 % 256,
-            ], dtype=np.uint8)
-    cv2.imwrite("pontos-colorida.png", imagemColorida2)
-    cv2.imshow("pontos-colorida", imagemColorida2)
-
-    #multiplicacao dos valores da imagem watershed em cinza
-    #imagemPontosMax *= 255 // qtd_labels
+        print('Quantidade de pixels pintados:',qtd_pintados)
 
 def mapaDistancia(imagemCinza):
     imagemCinza_aux = copy(imagemCinza)
     imagemCinza_aux = cv2.distanceTransform(imagemCinza_aux, cv2.DIST_L2, 3)
     for y in range(len(imagemCinza)):
         for x in range(len(imagemCinza[0])):
-            imagemCinza[y][x] = int(imagemCinza_aux[y][x])
+            imagemCinza[y][x] = int(imagemCinza_aux[y][x])  # transformar em int
 
+            """if int(imagemCinza_aux[y][x])*4 > 255: #multiplicar "int(imagemCinza_aux[y][x])" por X valor
+                imagemCinza[y][x] = 255
+
+            else:
+                imagemCinza[y][x] = int(imagemCinza_aux[y][x])*4 #multiplicar aqui também"""
 
 def correcaoPontosElipse():
     pass
@@ -189,9 +168,8 @@ def localMaxEquivalencia(imagemPontosMax):
                     for j in range(3):  # tamanho kernel
                         novo_y = (y + 1) - i
                         novo_x = (x + 1) - j
-                        if novo_y > 0 and novo_y < imagemPontosMax.shape[0]-1 and novo_x > 0 and novo_x < imagemPontosMax.shape[1]:
-                            if imagemPontosMax[novo_y][novo_x] != 0:
-                                imagemPontosMax[novo_y][novo_x] = imagemPontosMax[y][x]
+                        if imagemPontosMax[novo_y][novo_x] != 0:
+                            imagemPontosMax[novo_y][novo_x] = imagemPontosMax[y][x]
 
     return imagemPontosMax
 
@@ -208,24 +186,21 @@ def localMax(imagemCinza):
                 for j in range(10): #tam kernel
                     novo_y = (y + 1) - i
                     novo_x = (x + 1) - j
-
-                    if novo_y > 0 and novo_y < imagemPontosMax.shape[0]-1 and novo_x > 0 and novo_x < imagemPontosMax.shape[1]:
-
-                        elementosKernel.append(imagemCinza[novo_y][novo_x])
-                        pos_elementos.append([novo_y, novo_x])
+                    elementosKernel.append(imagemCinza[novo_y][novo_x])
+                    pos_elementos.append([novo_y, novo_x])
 
             for i in range(10):
                 for j in range(10):
                     novo_y = (y + 1) - i
                     novo_x = (x + 1) - j
-
-                    if novo_y > 0 and novo_y < imagemPontosMax.shape[0]-1 and novo_x > 0 and novo_x < imagemPontosMax.shape[1]:
-
-                        if imagemPontosMax[novo_y][novo_x] != max(elementosKernel):
-                            imagemPontosMax[novo_y][novo_x] = 0
+                    if imagemPontosMax[novo_y][novo_x] != max(elementosKernel):
+                        imagemPontosMax[novo_y][novo_x] = 0
 
     equivalencias, qtd_labels, equi_count = labeling.procurarEquivalencias(len(imagemPontosMax) - 1, len(imagemPontosMax[0]) - 1, imagemPontosMax)
+
     rotulo = int(255/qtd_labels)
+
+
     #print('Quantidade de labels:', qtd_labels, 'Equivalencias:', equivalencias)
     for y in range(len(imagemPontosMax) - 1):
         for x in range(len(imagemPontosMax[0]) - 1):
@@ -234,21 +209,16 @@ def localMax(imagemCinza):
                     imagemPontosMax[y][x] = rotulo * equivalencias[i][0]
                     #print(imagemPontosMax[y][x])
 
-
-    return imagemPontosMax, qtd_labels
+    return imagemPontosMax
 
 def encontrarBorda(imagemCinza, imagem_borda):
     for y in range(len(imagemCinza)):
         for x in range(len(imagemCinza[0])):
             if imagemCinza[y][x] != 0:
+                if imagemCinza[y-1][x] == 0 or imagemCinza[y][x-1] == 0 or imagemCinza[y][x+1] == 0 or imagemCinza[y+1][x+1] == 0 or imagemCinza[y+1][x-1] == 0 or imagemCinza[y-1][x-1] == 0 or imagemCinza[y-1][x+1] == 0:
+                    imagem_borda[y][x] = 255
 
-                if y > 0 and y < imagemCinza.shape[0]-2 and x > 0 and x < imagemCinza.shape[1]-2:
-
-                    if imagemCinza[y-1][x] == 0 or imagemCinza[y][x-1] == 0 or imagemCinza[y][x+1] == 0 or imagemCinza[y+1][x+1] == 0 or imagemCinza[y+1][x-1] == 0 or imagemCinza[y-1][x-1] == 0 or imagemCinza[y-1][x+1] == 0:
-                        imagem_borda[y][x] = 255
-
-
-def iniciar(imagem, im_limiarizada):
+def iniciar(imagem):
     inicioH = datetime.now().hour
     inicioM = datetime.now().minute
     inicioS = datetime.now().second
@@ -256,7 +226,6 @@ def iniciar(imagem, im_limiarizada):
     #imagem = cv2.imread('gray.jpg')
     cv2.imwrite("imagem.png", imagem)
     imagem = cv2.imread('imagem.png')
-
     imagemCinza = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
     imagemColorida = copy(imagem)
     imagem_borda = np.zeros((len(imagem),len(imagem[0])),dtype=float)
@@ -265,20 +234,15 @@ def iniciar(imagem, im_limiarizada):
     largura = len(imagemCinza[0])
 
     print('Calculando distâncias...')
-    #mapaDistancia(imagemCinza)
-    mapaDistancia(im_limiarizada)
+    mapaDistancia(imagemCinza)
     print('Encontrando bordas...')
-    #encontrarBorda(imagemCinza, imagem_borda)
-    encontrarBorda(im_limiarizada, imagem_borda)
+    encontrarBorda(imagemCinza, imagem_borda)
     print('Encontrando pontos máximos...')
-    #imagemPontosMax, qtd_labels = localMax(imagemCinza)
-    #imagemPontosMax = localMaxEquivalencia(imagemPontosMax)
-    imagemPontosMax, qtd_labels = localMax(im_limiarizada)
+    imagemPontosMax = localMax(imagemCinza)
     imagemPontosMax = localMaxEquivalencia(imagemPontosMax)
 
     imagemWatershed = copy(imagemPontosMax)
-    #watershed(imagemCinza, imagemWatershed, imagemPontosMax, qtd_labels) #WATERSHED
-    watershed(im_limiarizada, imagemWatershed, imagemPontosMax, qtd_labels)  # WATERSHED
+    watershed(imagemCinza, imagemWatershed) #WATERSHED
 
     fimH = datetime.now().hour
     fimM = datetime.now().minute
@@ -299,6 +263,6 @@ def iniciar(imagem, im_limiarizada):
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
 
-    return im_limiarizada, imagem_borda, imagemPontosMax, imagemWatershed
+    return imagemCinza, imagem_borda, imagemPontosMax, imagemWatershed
     #imagem = Image.fromarray(result)
     #imagem.show()

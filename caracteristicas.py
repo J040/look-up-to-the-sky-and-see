@@ -36,21 +36,25 @@ def pintarObjetosCirculares(mascara, objeto, imagemColorida):
 					imagemColorida[y][x] = [255, 0, 0]
 
 def calcularCompacidade(codigo_cadeia, objeto):
-	N_p = []
-	N_i = []
+    N_p = []
+    N_i = []
 
-	for i in codigo_cadeia:
-		if i % 2 == 0:
-			N_p.append(i)
-		else:
-			N_i.append(i)
+    for i in codigo_cadeia:
+        if i % 2 == 0:
+            N_p.append(i)
+        else:
+            N_i.append(i)
 
-	perimetro = len(N_p) + (math.sqrt(2)*len(N_i))
-	#print('\nNp:', len(N_p))
-	#print('Ni:', len(N_i))
-	#print('Area:', area)
-	compacidade = (perimetro**2)/objeto["area"]
-	objeto["compacidade"] = compacidade
+    perimetro = len(N_p) + (math.sqrt(2)*len(N_i))
+    #print('Np:', N_p)
+    #print('Ni:', N_i)
+    #print('Np TAM:', len(N_p))
+    #print('Ni TAM:', len(N_i))
+    #print('Perimetro:', perimetro)
+    #print('Area:', objeto['area'])
+
+    compacidade = (perimetro**2)/objeto["area"]
+    objeto["compacidade"] = compacidade
 
 def gerarCodigoCadeia(objeto, mascara, borda):
 
@@ -59,6 +63,11 @@ def gerarCodigoCadeia(objeto, mascara, borda):
 	superiorD = objeto["retangulo"][2]  # = [y,x]
 	superiorE = objeto["retangulo"][3]  # = [y,x]
 	centroide = objeto["centroide"]
+
+	print('ID', inferiorD)
+	print('IE', inferiorE)
+	print('SD', superiorD)
+	print('SE', superiorE)
 
 	y_aux = 0
 	x_aux = 0
@@ -130,6 +139,7 @@ def gerarCodigoCadeia(objeto, mascara, borda):
 			#print('3', y_aux, x_aux)
 
 	#print('\nCodigo de cadeia:', codigo_cadeia)
+	print('Tamanho do código de cadeia:',len(codigo_cadeia))
 	return codigo_cadeia
 		
 def variancia(mascaraCinza, objeto):
@@ -155,11 +165,21 @@ def pintarBorda(mascara, borda):
 	
 def assinatura(mascara, objeto):
 
+	cv2.imshow('ASSINATURA',mascara)
+	cv2.waitKey(0)
+	cv2.destroyAllWindows()
+
 	inferiorD = objeto["retangulo"][0] # = [y,x]
 	inferiorE = objeto["retangulo"][1] # = [y,x]
 	superiorD = objeto["retangulo"][2] # = [y,x]
 	superiorE = objeto["retangulo"][3] # = [y,x]	
-	
+
+	print('\nAssinatura!')
+	print('ID', inferiorD)
+	print('IE', inferiorE)
+	print('SD', superiorD)
+	print('SE', superiorE)
+
 	centroide = objeto["centroide"]
 	dist_pontos_borda = []
 	pixels_borda = []
@@ -172,6 +192,8 @@ def assinatura(mascara, objeto):
 						distancia = math.pow(centroide[0] - y,2) + math.pow(centroide[1] - x,2) #distancia euclidiana do centroide até a borda
 						dist_pontos_borda.append(math.sqrt(distancia))
 						pixels_borda.append([y,x])
+
+	print(pixels_borda)
 
 	for n in dist_pontos_borda:
 		somatorio = sum(dist_pontos_borda)/len(dist_pontos_borda)
@@ -190,6 +212,7 @@ def assinatura(mascara, objeto):
 	return pixels_borda, dist_pontos_borda
 
 def encontrarLocalMax(imagemCinza):
+
 	imagemPontosMax = copy(imagemCinza)
 
 	for y in range(len(imagemPontosMax) - 1):
@@ -236,6 +259,7 @@ def pintarRetangulo(mascara,maiorY,menorY,maiorX,menorX, objeto, imagemColorida,
 
 	#if objeto["compacidade"] > 9 and objeto["compacidade"] < 14: # REMOVER ?
 
+
 	aux = copy(menorX)
 	aux2 = copy(menorY)
 
@@ -254,6 +278,7 @@ def pintarRetangulo(mascara,maiorY,menorY,maiorX,menorX, objeto, imagemColorida,
 	imagemColorida[menorY][maiorX] = [255,255,255]
 	imagemColorida[menorY][menorX] = [255,255,255]
 
+	# Pintar linhas horizontais (Linhas ou eixos X)
 	while(maiorX != menorX):
 		mascara[maiorY][menorX] = 65000
 		mascara[menorY][menorX] = 65000
@@ -266,6 +291,7 @@ def pintarRetangulo(mascara,maiorY,menorY,maiorX,menorX, objeto, imagemColorida,
 
 		menorX += 1
 
+	# Pintar linhas verticais (Colunas ou eixos Y)
 	menorX = aux
 	while(maiorY != menorY):
 		mascara[menorY][maiorX] = 65000
@@ -322,27 +348,31 @@ def encontrarEixos(altura, largura, mascara, rotulos, indice):
 				
 def encontrarCentroideArea(altura, largura, mascara, rotulos, indice, objeto):
 
-	area = 0
-	somatorioX = 0
-	somatorioY = 0
+    cv2.imshow('imagemArea',mascara)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
-	for y in np.arange(altura):	
-		for x in np.arange(largura):	
-			if mascara[y][x] == rotulos[indice]:
-				area += 1				
-				somatorioX += x
-				somatorioY += y
+    area = 0
+    somatorioX = 0
+    somatorioY = 0
 
-	if area == 0:
-		area = 1
+    for y in np.arange(altura):
+        for x in np.arange(largura):
+            if mascara[y][x] == rotulos[indice]:
+                area += 1
+                somatorioX += x
+                somatorioY += y
 
-	objeto["area"] = area
+    if area == 0:
+        area = 1
 
-	posX = int(somatorioX / area)
-	posY = int(somatorioY / area)
+    objeto["area"] = area
 
-	objeto["centroide"] = [posY,posX]
-	return posY, posX, area
+    posX = int(somatorioX / area)
+    posY = int(somatorioY / area)
+
+    objeto["centroide"] = [posY,posX]
+    return posY, posX, area
 
 
 def encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, imagemColorida, imagemCinza, modelo_objeto):
@@ -357,7 +387,7 @@ def encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, imagemC
 		#posY, posX, area = encontrarCentroideArea(altura, largura, mascara, rotulos, indice, objeto)
 		posY, posX, area = encontrarCentroideArea(altura, largura, imagemCinza, rotulos, indice, objeto)
 
-		objeto["objeto"] = indice
+		objeto["indice"] = indice
 		objeto["label"] = rotulos[indice]
 		objeto["retangulo"] = [[maiorY,maiorX],[maiorY,menorX],[menorY,maiorX],[menorY,menorX]]
 
@@ -367,6 +397,7 @@ def encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, imagemC
 		
 		objeto["variancia"] = auxiliar
 
+		print('Tamanho borda:', len(pixels_borda))
 		#codigo_cadeia = gerarCodigoCadeia(objeto, mascara, pixels_borda)
 		codigo_cadeia = gerarCodigoCadeia(objeto, imagemCinza, pixels_borda)
 
@@ -408,6 +439,7 @@ def encontrarCaracteristicas(altura, largura, mascara, rotulos, objetos, imagemC
 		#mascara[ posY+1 ][ posX-1 ] = 65000
 		#mascara[ posY-1 ][ posX] = 65000
 		mascara[posY][posX] = 65025
+		imagemCinza[posY][posX] = 255
 		imagemColorida[posY][posX] = [255,255,255]
 		#mascara[ posY+1 ][ posX] = 65000
 		#mascara[ posY-1 ][ posX+1 ] = 65000
