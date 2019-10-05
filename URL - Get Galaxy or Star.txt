@@ -1,0 +1,5 @@
+http://skyserver.sdss.org/dr15/en/tools/chart/shownearest.aspx?ra=179.72395&dec=-0.40607&scale=0.09903&radius=0.2
+
+
+Procurar API sky server
+procurar arquivo load.py

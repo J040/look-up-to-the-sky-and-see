@@ -269,7 +269,7 @@ def iniciar(imagem, im_limiarizada):
     mapaDistancia(im_limiarizada)
     print('Encontrando bordas...')
     #encontrarBorda(imagemCinza, imagem_borda)
-    encontrarBorda(im_limiarizada, imagem_borda)
+    encontrarBorda(im_limiarizada, imagem_borda) # im_limiarizada é
     print('Encontrando pontos máximos...')
     #imagemPontosMax, qtd_labels = localMax(imagemCinza)
     #imagemPontosMax = localMaxEquivalencia(imagemPontosMax)

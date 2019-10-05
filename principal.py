@@ -45,13 +45,20 @@ def otsu(img):
 	print('Valor do melhor limiar:',val)
 	return val
 
-im = cv2.imread('circulo2.png')
+im = cv2.imread('teste2-2.tif')
 
 im_cinza = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
 limiar = otsu(im_cinza)
 limiar, im_limiarizada = cv2.threshold(im_cinza,limiar,255,cv2.THRESH_BINARY)
 
+kernel = np.ones((3, 3), np.float32)
+im_limiarizada = cv2.morphologyEx(im_limiarizada, cv2.MORPH_CLOSE, kernel)
+
 imagemCinza, imagem_borda, imagemPontosMax, imagemWatershed = watershed.iniciar(im, im_limiarizada)
+
+cv2.imshow('Watershed', imagemWatershed)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 
 #imgray = cv2.cvtColor(imagemWatershed, cv2.COLOR_BGR2GRAY)
 imgray = copy(imagemWatershed)

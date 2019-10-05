@@ -1,0 +1,8 @@
+TO-DO
+
+Se a distancia entre os dois pontos maximo for menor que a distância deles até a borda.
+- Aumentei em 5 o limiar para realizar a limiarização
+
+O máximo local não está pegando todos os pontos isolados. Ele deixa de pegar os pontos mais pro preto, mesmo que isolados. Refazer localMax() para pegar todos os pontos isolados, nãosó os mais altos.
+
+

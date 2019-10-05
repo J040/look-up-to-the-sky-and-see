@@ -2,21 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="626c0fd0-855f-4bb6-9f14-2c28cd6f322b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/buscaCaracteristicas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fazerWatershed.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kmeans.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/principalAntigo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/procurar.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rotular.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requisicoes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caracteristicas.py" beforeDir="false" afterPath="$PROJECT_DIR$/caracteristicas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contorno.png" beforeDir="false" afterPath="$PROJECT_DIR$/contorno.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buscaCaracteristicas.py" beforeDir="false" afterPath="$PROJECT_DIR$/buscaCaracteristicas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caracteristicas.png" beforeDir="false" afterPath="$PROJECT_DIR$/caracteristicas.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distancia.png" beforeDir="false" afterPath="$PROJECT_DIR$/distancia.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fazerWatershed.py" beforeDir="false" afterPath="$PROJECT_DIR$/fazerWatershed.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imagem.png" beforeDir="false" afterPath="$PROJECT_DIR$/imagem.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labeling.py" beforeDir="false" afterPath="$PROJECT_DIR$/labeling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pontos.png" beforeDir="false" afterPath="$PROJECT_DIR$/pontos.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kmeans.py" beforeDir="false" afterPath="$PROJECT_DIR$/kmeans.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pontos-colorida.png" beforeDir="false" afterPath="$PROJECT_DIR$/pontos-colorida.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pontosMax.png" beforeDir="false" afterPath="$PROJECT_DIR$/pontosMax.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/principal.py" beforeDir="false" afterPath="$PROJECT_DIR$/principal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/procurar.py" beforeDir="false" afterPath="$PROJECT_DIR$/procurar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotular.py" beforeDir="false" afterPath="$PROJECT_DIR$/rotular.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saida.png" beforeDir="false" afterPath="$PROJECT_DIR$/saida.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/watershed.png" beforeDir="false" afterPath="$PROJECT_DIR$/watershed.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/watershed.py" beforeDir="false" afterPath="$PROJECT_DIR$/watershed.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
