@@ -1,0 +1,8 @@
+VP (Galaxias = Galaxias reais) | VN (Estrelas = Estrelas reais) | FP (Estrelas classificadas como galáxias) | FN (Galáxias classificadas como estrelas)
+
+TOTAL OBJETOS: 454
+TOTAL DE OBJETOS CLASSIFICADOS: 126
+ra = 179.44704
+dec = -0.45169
+
+Corretas: 109 | Erradas: 17 | Porcentagem: 0.8650793650793651 %

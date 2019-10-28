@@ -1,0 +1,93 @@
+ETAPAS INICIAIS:
+
+Um vetor de objetos foi criado vazio. = []
+
+Um vetor de dados foi criado vazio. = []
+
+um modelo de objeto é criado com as seguintes características: {
+    "indice": 0,
+    "label": 0,
+    "area": 0,
+    "eixoY": [],
+    "eixoX": [],
+    "retangulo_altura": 0, #Maior Y
+    "retangulo_largura": 0, #Maior X
+    "retangulo": [],
+    "centroide": [],
+    "variancia": 0,
+    "codigo_cadeia": [],
+    "compacidade": 0,
+    "excentricidade": 0,
+    "retangularidade": 0,
+    "projecao_linhas": 0,
+    "projecao_colunas": 0,
+    "classificacaoGerada": 0,
+    "classificacao": '',
+    "ra": 0,
+    "dec": 0
+}
+
+
+requisição da imagem (ra, dec, altura e largura)
+
+transformação da imagem em escala de cinza
+
+Gero a imagem LIMIARIZADA
+
+utilização de um kernel(3,3)
+aplicação do kernel para o algoritmo de fechamento()
+
+A partir da imagem limiarizada:
+- Gerou imagem de distancia
+- Gerou imagem da borda dos objetos
+
+A partir da imagem limiarizada e da imagem em escala de cinza:
+- Gerou imagem com os pontos locais mais altos (Rotulando cada pico central de cada objeto, com um valor diferente)
+
+A partir da imagem em escala de cinza e da limiarizada:
+- Gerou a segmentação por meio do método de watershed (PODERIA SER COM A IMAGEM DE DISTANCIA?)
+
+Realiza a conta de quantos objetos existem na imagem, de acordo com a separação realizada pelo método que retira os pontos máximo.
+
+--------------------------------------------------- EXTRAÇÃO DE CARACTERISTICAS  ---------------------------------------------------
+
+Percorre cada objeto segmentado pelo watershed e para cada um (DE ACORDO COM A REGRA DE TAMANHO MAIOR QUE 7 ou 9), captura as seguintes características:
+area, indice, label, eixoY, eixoX, retangulo_altura, retangulo_largura, retangulo (quatro pontos), variancia dos pixels, projeção_linhas, projeção_colunas, assinatura, codigo_cadeia, compacidade, excentricidade e retangularidade.
+
+após as características serem calculadas para cada objeto, o algoritmo calcula uma área retangular em torno do objeto
+
+Insere o objeto com as características dentro do vetor(lista) de objetos.
+
+Insere o vetor das características referente ao objeto dentro do vetor de dados.
+
+Após passar por todos os objetos da imagem e estar como todos os objetos e dados preenchidos nos devidos vetores, é então feita a chamada da função de agrupamento de dados (KMEANS)
+
+--------------------------------------------------- KMEANS (classificação) ---------------------------------------------------
+
+O algoritmo kmeans utilizado tem como objetivo separar os dados dentro do vetor de dados em DUAS classes, com um número máximo de iterações igual a 300. 
+
+---------------------------------------------------------- LIMPEZA -----------------------------------------------------------
+
+Com base na classificação realizada pelo KMEANS com base nas características dos objetos, o algoritmo seleciona a imagem original colorida e pinta de preto todos os pixels que constituem objetos classificados como strelas e/ou objetos menores do que a quantidade mínima de pixels especificado na geração das características
+
+Depois desenha um retangulo envolvente em torno dos objetos classificados como galaxias, na imagem das bordas dos objetos
+
+-----------------------------------------------------
+
+Após o término do KMEANS é chamada a função para gerar a taxa de acerto, que se baseia em 3 etapas principais
+
+- Primeira: converter os valores de pixel em RA e DEC, de acordo com a imagem puxada
+
+- Segunda: obter classificação verdadeira para poder comparar posteriormente (com base no pixel central de cada objeto convertido em RA e DEC, e com base na requisição que retorna se o objeto na posição RA e DEC é uma Estrela ou Galaxia)
+
+- Terceira: Comparação da classificação feita pelo KMEANS como a classificação correta puxada pela requisição (geração da porcentagem).
+
+------------------------------------------------------
+
+
+
+
+
+
+
+

@@ -1,0 +1,80 @@
+OBS: CALCULAR TEMPO DE EXECUÇÃO
+
+VP (Galaxias = Galaxias reais) | VN (Estrelas = Estrelas reais) | FP (Estrelas classificadas como galáxias) | FN (Galáxias classificadas como estrelas)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMAGEM 1
+
+
+------------------------------------------ Imagem 512 x 512 e Objeto com tamanho mínimo de 9px ------------------------------------------
+
+TOTAL OBJETOS: 152
+TOTAL DE OBJETOS CLASSIFICADOS: 50
+ra = 179.68929
+dec = -0.45438
+
+Corretas: 39 | Erradas: 11 | Porcentagem: 0.78 %
+Matriz de confusão - VP: 18 VN: 21 FP: 11 FN: 0
+
+
+------------------------------------------ Imagem 800 x 800 e Objeto com tamanho mínimo de 9px ------------------------------------------
+
+TOTAL OBJETOS: 405
+TOTAL DE OBJETOS CLASSIFICADOS: 126
+ra = 179.68929
+dec = -0.45438
+
+Corretas: 106 | Erradas: 20 | Porcentagem: 0.8412698412698413 %
+Matriz de confusão - VP: 48 VN: 58 FP: 18 FN: 2
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMAGEM 2
+
+
+------------------------------------------ Imagem 512 x 512 e Objeto com tamanho mínimo de 9px ------------------------------------------
+
+TOTAL OBJETOS: 190
+TOTAL DE OBJETOS CLASSIFICADOS: 53
+ra = 179.44704
+dec = -0.45169
+
+Corretas: 46 | Erradas: 7 | Porcentagem: 0.8679245283018868 %
+Matriz de confusão - VP: 27 VN: 19 FP: 7 FN: 0
+
+
+------------------------------------------ Imagem 800 x 800 e Objeto com tamanho mínimo de 9px ------------------------------------------
+
+TOTAL OBJETOS: 454
+TOTAL DE OBJETOS CLASSIFICADOS: 126
+ra = 179.44704
+dec = -0.45169
+
+Corretas: 109 | Erradas: 17 | Porcentagem: 0.8650793650793651 %
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMAGEM 3
+
+
+------------------------------------------ Imagem 512 x 512 e Objeto com tamanho mínimo de 9px ------------------------------------------
+
+TOTAL OBJETOS: 
+TOTAL DE OBJETOS CLASSIFICADOS: 43
+ra = 179.04945
+dec = -0.66299
+
+Corretas: 36 | Erradas: 7 | Porcentagem: 0.8372093023255814 %
+Matriz de confusão - VP: 18 VN: 18 FP: 6 FN: 1
+
+
+------------------------------------------ Imagem 800 x 800 e Objeto com tamanho mínimo de 9px ------------------------------------------
+
+TOTAL OBJETOS: 
+TOTAL DE OBJETOS CLASSIFICADOS: 
+ra = 179.04945
+dec = -0.66299
+
+Corretas: 88 | Erradas: 11 | Porcentagem: 0.8888888888888888 %
+Matriz de confusão - VP: 42 VN: 46 FP: 9 FN: 2
+
+
+

@@ -19,11 +19,10 @@ def localMaxWatershed(imagemDistancia, imagemLimiarizada):
     local_maxi = peak_local_max(imagemDistancia, indices=False, footprint=np.ones((6, 6)), labels=imagem)  # values are: false or true
     imagemPontosMax = ndi.label(local_maxi)[0]
     imagemWatershed = watershed(-imagemDistancia, imagemPontosMax, mask=imagem)
-    cv2.imwrite("imagmeWatershed.png", imagemWatershed)
+    cv2.imwrite("imagemWatershed.png", imagemWatershed)
     cv2.imwrite("imagemMaxLocal.png", imagemPontosMax)
-    imagemPontoMax = cv2.imread("imagemMaxLocal.png")
-    imagemWatershed = cv2.imread("imagmeWatershed.png")
-    return imagemPontoMax, imagemWatershed
+
+    return imagemPontosMax, imagemWatershed
 
 
 def pintarColorido(imagemColorida, rotulos, altura, largura, mascara):
@@ -107,13 +106,25 @@ def procurarEquivalencias(altura, largura, imagemLimiarizada, entrou):
 
 def contar(altura, largura, imagemRotulada):
     labels = []
+    count = 0
     for i in np.arange(altura):
         for j in np.arange(largura):
             if imagemRotulada[i][j] != 0:
                 if not (imagemRotulada[i][j] in labels):
                     labels.append(imagemRotulada[i][j])
     print('Quantidade de objetos identificado pela cor:', len(labels))
-    return labels
+
+    for y in range(altura):
+        for x in range(largura):
+            if imagemRotulada[y][x] != 0:
+                count += 1
+
+    print('Quantidade de objetos identificado pelos pontos:', count)
+
+    return labels, count
+
+
+
 
 
 '''def rotular(altura, largura, imagemLimiarizada, equivalencias):

@@ -23,18 +23,10 @@ def gerarTaxaAcerto(objetos, altura, largura, ra, dec):
         diferY = (objetoPosY-centroideImagemPosY)
         diferX = (objetoPosX-centroideImagemPosX)
 
-        print('Difers Y - X:', diferY, diferX)
-
         objeto["ra"] = ra - (diferX * aux)
         objeto["dec"] = dec - (diferY * aux)
         objeto["classificacao"] = obterClassificacao(objeto["ra"], objeto["dec"])
-
-        print('Pos Y e X:', objetoPosY, objetoPosX ,' - RA e DEC:', objeto["ra"], objeto["dec"], ' ---- Classificação:', objeto["classificacao"])
-
-    print('Centroide do Objeto Y e X:', objetoPosY, objetoPosX)
-
-    #print('Resposta:', requisicoes.obterClassificacao(ra=RA, dec=DEC))
-    pass
+        print('\nIndice:', objeto["indice"], 'Y e X', objeto["centroide"], 'RA:', objeto["ra"], 'DEC:', objeto["dec"], '-', objeto["classificacao"])
 
 
 def obterClassificacao(ra, dec, scale=1, radius=0.2):
@@ -49,8 +41,13 @@ def obterClassificacao(ra, dec, scale=1, radius=0.2):
     )
     soup = BeautifulSoup(resp.content, features="lxml")
     elem = soup.findAll('tr')
-    #print(elem[2].findAll('td')[1].text)
-    return elem[2].findAll('td')[1].text
+    # print('TAMANHO DO BAGULHO:',len(elem))
+
+    if len(elem) > 1 :
+        return elem[2].findAll('td')[1].text
+    else:
+        return 'DESCONHECIDO'
+
 
 def obterImagem(ra, dec, width=512, height=512, scale=1):
     resp = requests.get(

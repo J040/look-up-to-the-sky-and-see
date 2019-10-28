@@ -140,8 +140,17 @@ def pintarRetanguloClassificado(imagemClassificada, classificacoes, objetos):
 
     return imagemClassificadaReal
 
+
+def removerEstrelas(imagem, classificacoes, objetos, classeEstrela):
+    for i in range(len(objetos)):
+        if classificacoes[i] == classeEstrela:  # REMOVER OBJETOS NÃO CLASSIFICADOS COMO 'classeEstrela'
+            for posicao in objetos[i]["area"]:
+                imagem[posicao[0]][posicao[1]] = 0
+
+
+
 # Retorna a imagem de borda com o retângulo envolvente
-def pintarRetanguloClassificadoKmeans(imagemClassificada, classificacoes, objetos):
+def pintarRetanguloClassificadoKmeans(imagemClassificada, classificacoes, objetos, classeGalaxia):
     for i in range(len(objetos)):
         objeto = objetos[i]
         menorX = objeto["retangulo"][1][1] - 2
@@ -149,7 +158,7 @@ def pintarRetanguloClassificadoKmeans(imagemClassificada, classificacoes, objeto
         menorY = objeto["retangulo"][2][0] - 2
         maiorY = objeto["retangulo"][0][0] + 2
 
-        if classificacoes[i] == 1: # PINTAR OBJETOS CLASSIFICADOS COMO '1'
+        if classificacoes[i] == classeGalaxia: # PINTAR OBJETOS CLASSIFICADOS COMO 'classeGaláxia'
             if menorX < 0:
                 menorX = 0
             if menorY < 0:
@@ -391,6 +400,13 @@ def variancia(imagemCinza, objeto):
     for i in objeto['area']:
         pixels.append(imagemCinza[i[0]][i[1]])
     return np.var(pixels)
+
+
+def calcularCentroide(imagemPontos, altura, largura, indice, centroides):
+    for y in range(altura):
+        for x in range(largura):
+            if imagemPontos[y][x] == indice and [y,x] not in centroides:
+                return [y,x]
 
 
 # Retorna a posição central de um objeto em coordenadas Y e X da matriz (imagem 8bits), assim como a Área do objeto em quantidade de pixels

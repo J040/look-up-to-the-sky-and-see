@@ -1,0 +1,23 @@
+ALEX:
+
+Introdução
+- Problematização
+- Formulação do problema
+- Objetivos
+- Metodologia
+- Estrutura do trabalho
+
+
+Fundamentação Teórica
+...
+
+
+Desenvolvimento (Acredito que a maior modificação ocorra aqui, nos subtítulos e nesse título)
+...
+- Projeto
+- Codificação
+- Experimento
+- Resultados
+
+
+Conclusão
