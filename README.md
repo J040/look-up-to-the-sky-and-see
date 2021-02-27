@@ -9,10 +9,10 @@ O código em questão não está muito bem formatado, pois fui aprendendo a faze
 
 A refatoração do código está no roadmap.
 
-## Para rodar:
+## Para rodar
 
 Usar o gerenciador de pacotes [pip](https://pip.pypa.io/en/stable/) para instalar as dependências, que não foram especificadas em um arquivo ou em um ambiente virtual. :c
 
 ```bash
-Python procurar.py
+Python3 procurar.py
 ```
