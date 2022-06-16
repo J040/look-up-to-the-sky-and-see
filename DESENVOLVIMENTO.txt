@@ -4,7 +4,7 @@ Um vetor de objetos foi criado vazio. = []
 
 Um vetor de dados foi criado vazio. = []
 
-um modelo de objeto È criado com as seguintes caracterÌsticas: {
+um modelo de objeto √© criado com as seguintes caracter√≠sticas: {
     "indice": 0,
     "label": 0,
     "area": 0,
@@ -28,14 +28,14 @@ um modelo de objeto È criado com as seguintes caracterÌsticas: {
 }
 
 
-requisiÁ„o da imagem (ra, dec, altura e largura)
+requisi√ß√£o da imagem (ra, dec, altura e largura)
 
-transformaÁ„o da imagem em escala de cinza
+transforma√ß√£o da imagem em escala de cinza
 
 Gero a imagem LIMIARIZADA
 
-utilizaÁ„o de um kernel(3,3)
-aplicaÁ„o do kernel para o algoritmo de fechamento()
+utiliza√ß√£o de um kernel(3,3)
+aplica√ß√£o do kernel para o algoritmo de fechamento()
 
 A partir da imagem limiarizada:
 - Gerou imagem de distancia
@@ -45,42 +45,42 @@ A partir da imagem limiarizada e da imagem em escala de cinza:
 - Gerou imagem com os pontos locais mais altos (Rotulando cada pico central de cada objeto, com um valor diferente)
 
 A partir da imagem em escala de cinza e da limiarizada:
-- Gerou a segmentaÁ„o por meio do mÈtodo de watershed (PODERIA SER COM A IMAGEM DE DISTANCIA?)
+- Gerou a segmenta√ß√£o por meio do m√©todo de watershed (PODERIA SER COM A IMAGEM DE DISTANCIA?)
 
-Realiza a conta de quantos objetos existem na imagem, de acordo com a separaÁ„o realizada pelo mÈtodo que retira os pontos m·ximo.
+Realiza a conta de quantos objetos existem na imagem, de acordo com a separa√ß√£o realizada pelo m√©todo que retira os pontos m√°ximo.
 
---------------------------------------------------- EXTRA«√O DE CARACTERISTICAS  ---------------------------------------------------
+--------------------------------------------------- EXTRA√á√ÉO DE CARACTERISTICAS  ---------------------------------------------------
 
-Percorre cada objeto segmentado pelo watershed e para cada um (DE ACORDO COM A REGRA DE TAMANHO MAIOR QUE 7 ou 9), captura as seguintes caracterÌsticas:
-area, indice, label, eixoY, eixoX, retangulo_altura, retangulo_largura, retangulo (quatro pontos), variancia dos pixels, projeÁ„o_linhas, projeÁ„o_colunas, assinatura, codigo_cadeia, compacidade, excentricidade e retangularidade.
+Percorre cada objeto segmentado pelo watershed e para cada um (DE ACORDO COM A REGRA DE TAMANHO MAIOR QUE 7 ou 9), captura as seguintes caracter√≠sticas:
+area, indice, label, eixoY, eixoX, retangulo_altura, retangulo_largura, retangulo (quatro pontos), variancia dos pixels, proje√ß√£o_linhas, proje√ß√£o_colunas, assinatura, codigo_cadeia, compacidade, excentricidade e retangularidade.
 
-apÛs as caracterÌsticas serem calculadas para cada objeto, o algoritmo calcula uma ·rea retangular em torno do objeto
+ap√≥s as caracter√≠sticas serem calculadas para cada objeto, o algoritmo calcula uma √°rea retangular em torno do objeto
 
-Insere o objeto com as caracterÌsticas dentro do vetor(lista) de objetos.
+Insere o objeto com as caracter√≠sticas dentro do vetor(lista) de objetos.
 
-Insere o vetor das caracterÌsticas referente ao objeto dentro do vetor de dados.
+Insere o vetor das caracter√≠sticas referente ao objeto dentro do vetor de dados.
 
-ApÛs passar por todos os objetos da imagem e estar como todos os objetos e dados preenchidos nos devidos vetores, È ent„o feita a chamada da funÁ„o de agrupamento de dados (KMEANS)
+Ap√≥s passar por todos os objetos da imagem e estar como todos os objetos e dados preenchidos nos devidos vetores, √© ent√£o feita a chamada da fun√ß√£o de agrupamento de dados (K-MEANS)
 
---------------------------------------------------- KMEANS (classificaÁ„o) ---------------------------------------------------
+--------------------------------------------------- KMEANS (classifica√ß√£o) ---------------------------------------------------
 
-O algoritmo kmeans utilizado tem como objetivo separar os dados dentro do vetor de dados em DUAS classes, com um n˙mero m·ximo de iteraÁıes igual a 300. 
+O algoritmo kmeans utilizado tem como objetivo separar os dados dentro do vetor de dados em DUAS classes, com um n√∫mero m√°ximo de itera√ß√µes igual a 300. 
 
 ---------------------------------------------------------- LIMPEZA -----------------------------------------------------------
 
-Com base na classificaÁ„o realizada pelo KMEANS com base nas caracterÌsticas dos objetos, o algoritmo seleciona a imagem original colorida e pinta de preto todos os pixels que constituem objetos classificados como strelas e/ou objetos menores do que a quantidade mÌnima de pixels especificado na geraÁ„o das caracterÌsticas
+Com base na classifica√ß√£o realizada pelo KMEANS com base nas caracter√≠sticas dos objetos, o algoritmo seleciona a imagem original colorida e pinta de preto todos os pixels que constituem objetos classificados como strelas e/ou objetos menores do que a quantidade m√≠nima de pixels especificado na gera√ß√£o das caracter√≠sticas
 
 Depois desenha um retangulo envolvente em torno dos objetos classificados como galaxias, na imagem das bordas dos objetos
 
 -----------------------------------------------------
 
-ApÛs o tÈrmino do KMEANS È chamada a funÁ„o para gerar a taxa de acerto, que se baseia em 3 etapas principais
+Ap√≥s o t√©rmino do K-MEANS √© chamada a fun√ß√£o para gerar a taxa de acerto, que se baseia em 3 etapas principais
 
 - Primeira: converter os valores de pixel em RA e DEC, de acordo com a imagem puxada
 
-- Segunda: obter classificaÁ„o verdadeira para poder comparar posteriormente (com base no pixel central de cada objeto convertido em RA e DEC, e com base na requisiÁ„o que retorna se o objeto na posiÁ„o RA e DEC È uma Estrela ou Galaxia)
+- Segunda: obter classifica√ß√£o verdadeira para poder comparar posteriormente (com base no pixel central de cada objeto convertido em RA e DEC, e com base na requisi√ß√£o que retorna se o objeto na posi√ß√£o RA e DEC √© uma Estrela ou Galaxia)
 
-- Terceira: ComparaÁ„o da classificaÁ„o feita pelo KMEANS como a classificaÁ„o correta puxada pela requisiÁ„o (geraÁ„o da porcentagem).
+- Terceira: Compara√ß√£o da classifica√ß√£o feita pelo K-MEANS como a classifica√ß√£o correta puxada pela requisi√ß√£o (gera√ß√£o da porcentagem).
 
 ------------------------------------------------------
 

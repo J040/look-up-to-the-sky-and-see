@@ -10,7 +10,7 @@ from PIL import Image
 import numpy as np
 from io import BytesIO
 import cv2
-#from BeautifulSoup import BeautifulSoup as BS
+# from BeautifulSoup import BeautifulSoup as BS
 from bs4 import BeautifulSoup
 
 def gerarTaxaAcerto(objetos, altura, largura, ra, dec):

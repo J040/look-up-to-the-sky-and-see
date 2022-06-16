@@ -1,48 +1,48 @@
 variancia, assinatura, compacidade, excentricidade
 
-261 objetos com área maior que 7px (1024x1024) - 76%
-67  objetos com área maior que 7px ( 512x512 ) - 68%
-167 objetos com área maior que 7px ( 800x800 ) - 80%
+261 objetos com Ã¡rea maior que 7px (1024x1024) - 76%
+67  objetos com Ã¡rea maior que 7px ( 512x512 ) - 68%
+167 objetos com Ã¡rea maior que 7px ( 800x800 ) - 80%
 
 ---------------------------- // ----------------------------
 
 variancia, assinatura, compacidade
 
-67  objetos com área maior que 7px ( 512x512 ) - 68%
-167 objetos com área maior que 7px ( 800x800 ) - 80%
+67  objetos com Ã¡rea maior que 7px ( 512x512 ) - 68%
+167 objetos com Ã¡rea maior que 7px ( 800x800 ) - 80%
 
 ---------------------------- // ----------------------------
 
 variancia, assinatura
 
-67  objetos com área maior que 7px ( 512x512 ) - 71%
-167 objetos com área maior que 7px ( 800x800 ) - 80%
+67  objetos com Ã¡rea maior que 7px ( 512x512 ) - 71%
+167 objetos com Ã¡rea maior que 7px ( 800x800 ) - 80%
 
 ---------------------------- // ----------------------------
 
 variancia, compacidade
 
-67  objetos com área maior que 7px ( 512x512 ) - 68%
-167 objetos com área maior que 7px ( 800x800 ) - 80%
+67  objetos com Ã¡rea maior que 7px ( 512x512 ) - 68%
+167 objetos com Ã¡rea maior que 7px ( 800x800 ) - 80%
 
 ---------------------------- // ----------------------------
 
 variancia
 
-67  objetos com área maior que 7px ( 512x512 ) - 68%
+67  objetos com Ã¡rea maior que 7px ( 512x512 ) - 68%
 
 ---------------------------- // ------------------------------------------------------- // -----------------------------
 
 compacidade, assinatura, area, variancia, excentricidade, retangularidade, codigo_cadeia
 - area > 9
 
-50  objetos com área maior que 9px ( 512x512 ) - 78%
-126 objetos com área maior que 9px ( 800x800 ) - 84%
+50  objetos com Ã¡rea maior que 9px ( 512x512 ) - 78%
+126 objetos com Ã¡rea maior que 9px ( 800x800 ) - 84%
 
 
 *********************************************
 
-A "VARIANCIA" se mostrou a característica mais importante para uma boa classificação.
+A "VARIANCIA" se mostrou a caracterÃ­stica mais importante para uma boa classificaÃ§Ã£o.
 
 
 

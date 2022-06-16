@@ -19,20 +19,20 @@ import classificar
 import matrizConfusao
 
 #Terceira Imagem
-ra = 179.04945
-dec = -0.66299
+# ra = 179.04945
+# dec = -0.66299
 
 #Segunda Imagem
-#ra = 179.44704
-#dec = -0.45169
+# ra = 179.44704
+# dec = -0.45169
 
 #Primeira Imagem
-#ra = 179.68929
-#dec = -0.45438
+ra = 179.68929
+dec = -0.45438
 
-width = 500 #pixels
-height = 500 #pixels
-requisitada = False
+width = 200 #pixels
+height = 200 #pixels
+requisitada = True
 
 #print('Resposta:', requisicoes.obterClassificacao(ra=RA, dec=DEC))
 
