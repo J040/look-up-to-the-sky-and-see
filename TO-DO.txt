@@ -1,8 +1,8 @@
 TO-DO
 
-Se a distancia entre os dois pontos maximo for menor que a distância deles até a borda.
-- Aumentei em 5 o limiar para realizar a limiarização
+Se a distancia entre os dois pontos maximo for menor que a distï¿½ncia deles atï¿½ a borda.
+- Aumentei em 5 o limiar para realizar a limiarizaï¿½ï¿½o
 
-O máximo local não está pegando todos os pontos isolados. Ele deixa de pegar os pontos mais pro preto, mesmo que isolados. Refazer localMax() para pegar todos os pontos isolados, nãosó os mais altos.
+O mï¿½ximo local nï¿½o estï¿½ pegando todos os pontos isolados. Ele deixa de pegar os pontos mais pro preto, mesmo que isolados. Refazer localMax() para pegar todos os pontos isolados, nï¿½osï¿½ os mais altos.
 
-
+Arrumar funï¿½ï¿½o "localMax" e melhorar funï¿½ï¿½o "watershed"

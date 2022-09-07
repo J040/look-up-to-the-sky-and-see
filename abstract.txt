@@ -1,1 +1,4 @@
-Galaxy clusters are fundamental blocks of our universe, like stars and galaxies. The study of galaxy clusters has shown complexity due to a large number of stars superimposed on these clusters, which emit light and block the clear optical band visualization of the phenomenon. In this paper, we present the implementation of an algorithm capable of classifying and remove the stars of spatial images. The purpose is to improve not only the existing studies around galaxy clusters but also to assist the developing in astronomic researches with available treated spatial images.
+Galaxy clusters are fundamental blocks of our universe, like stars and galaxies.
+The study of galaxy clusters has shown complexity due to a large number of stars superimposed on these clusters, which emit light and block the clear optical band visualization of the phenomenon.
+In this paper, we present the implementation of an algorithm capable of classifying and remove the stars of spatial images.
+The purpose is to improve not only the existing studies around galaxy clusters but also to assist the developing in astronomic researches with available treated spatial images.

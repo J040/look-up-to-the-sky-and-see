@@ -2,88 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="626c0fd0-855f-4bb6-9f14-2c28cd6f322b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/classificar.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/copia-procurar.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/matrizConfusao.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/validacao.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/exclusao.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ESTRELAS.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Limiarizacao.png" beforeDir="false" afterPath="$PROJECT_DIR$/Limiarizacao.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TESTE-rotular.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TESTEdepois.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_composite_image_with_all_marks_watershed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_gradient__1_watershed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_region__0__markers_for_watershed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/angulo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/arte.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/borda.png" beforeDir="false" afterPath="$PROJECT_DIR$/borda.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/buscaCaracteristicas.py" beforeDir="false" afterPath="$PROJECT_DIR$/buscaCaracteristicas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/caracteristicas.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/caracteristicas.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/circulo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/circulo2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/circulo3-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/circulo3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cinza.png" beforeDir="false" afterPath="$PROJECT_DIR$/cinza.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classificadas.png" beforeDir="false" afterPath="$PROJECT_DIR$/classificadas.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contorno.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contorno.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classificadasSDSS.png" beforeDir="false" afterPath="$PROJECT_DIR$/classificadasSDSS.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classificar.py" beforeDir="false" afterPath="$PROJECT_DIR$/classificar.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distancia.png" beforeDir="false" afterPath="$PROJECT_DIR$/distancia.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/elipse.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/estrela-errada.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/estrelas-ra-dec.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/estrelas2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/excentricidade.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/exemplo-imagem.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/exemplo-pontomax.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fazerWatershed.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/florence.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/formas-borda.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/formas-variancia.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/formas.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gray.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/imagem-testes.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/imagem.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/imagemArea.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/imagemMaxLocal.png" beforeDir="false" afterPath="$PROJECT_DIR$/imagemMaxLocal.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/imagemPontoMax.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/imagemPontoMaxRotulada.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/imagmeWatershed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kmeans-teste.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kmeans.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kmeans.py" beforeDir="false" afterPath="$PROJECT_DIR$/kmeans.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/labeling.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mapa-distancia.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/nova estrutura/buscaCaracteristicas.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pontoMax.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pontos-colorida-maneira.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pontos-colorida.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pontos.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/imagemWatershed.png" beforeDir="false" afterPath="$PROJECT_DIR$/imagemWatershed.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/matrizConfusao.py" beforeDir="false" afterPath="$PROJECT_DIR$/matrizConfusao.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/original.png" beforeDir="false" afterPath="$PROJECT_DIR$/original.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pontosMax.png" beforeDir="false" afterPath="$PROJECT_DIR$/pontosMax.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pontosMaxAntes.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/principal.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/principalAntigo.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/procurar.py" beforeDir="false" afterPath="$PROJECT_DIR$/procurar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projecoes.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/requisicoes.py" beforeDir="false" afterPath="$PROJECT_DIR$/requisicoes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rotulacao.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rotular.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/rotular.py" beforeDir="false" afterPath="$PROJECT_DIR$/rotular.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rotular2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saida.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/showhsowhsowh.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/teste.tif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/teste2-2.tif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/watershed-antigo-funcional-escalaDeCinza.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/watershed-borda.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/watershed-resultado-melhorado.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/watershed-resultado-ruim.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/watershed-star.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/semEstrelas.png" beforeDir="false" afterPath="$PROJECT_DIR$/semEstrelas.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/validacao.py" beforeDir="false" afterPath="$PROJECT_DIR$/validacao.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/watershed.png" beforeDir="false" afterPath="$PROJECT_DIR$/watershed.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/watershed.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/watershed2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/watershed3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/watershed4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/watershed5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/watershedFirst.png" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
