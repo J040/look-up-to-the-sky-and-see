@@ -10,11 +10,11 @@ from PIL import Image
 import numpy as np
 from io import BytesIO
 import cv2
-# from BeautifulSoup import BeautifulSoup as BS
+#from BeautifulSoup import BeautifulSoup as BS
 from bs4 import BeautifulSoup
 
 def gerarTaxaAcerto(objetos, altura, largura, ra, dec):
-    aux = 0.000277777777777778 #VALOR DE REPRESENTAÇÃO DO PIXEL EM RA E DEC
+    aux = 0.000277777777777778 #VALOR DE REPRESENTAÇÃO DO PIXEL EM RA E DEC (scale = arcsec = 1 | convertido 1 arcsec para degrees (DEC e RA))
     centroideImagemPosY = int(altura/2)
     centroideImagemPosX = int(largura/2)
     for objeto in objetos:
@@ -44,6 +44,7 @@ def obterClassificacao(ra, dec, scale=1, radius=0.2):
     # print('TAMANHO DO BAGULHO:',len(elem))
 
     if len(elem) > 1 :
+
         return elem[2].findAll('td')[1].text
     else:
         return 'DESCONHECIDO'
