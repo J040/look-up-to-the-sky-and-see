@@ -9,9 +9,6 @@ import os, sys
 import cv2
 import numpy as np
 from copy import copy, deepcopy
-from random import randint
-
-import time #mascar o tempo de execução
 
 import buscaCaracteristicas
 import rotular
@@ -21,33 +18,20 @@ import validacao
 import classificar
 import matrizConfusao
 
-
-#Sexta Imagem
-#ra = 171.18753
-#dec = -7.54034
-
-#Quinta Imagem
-#ra = 172.07250
-#dec = -6.47080
-
-#Quarta Imagem
-#ra = 172.18071
-#dec = -7.67738
-
 #Terceira Imagem
-#ra = 179.04945
-#dec = -0.66299
+# ra = 179.04945
+# dec = -0.66299
 
 #Segunda Imagem
-#ra = 179.44704
-#dec = -0.45169
+# ra = 179.44704
+# dec = -0.45169
 
 #Primeira Imagem
 ra = 179.68929
 dec = -0.45438
 
-width = 500 #pixels
-height = 500 #pixels
+width = 200 #pixels
+height = 200 #pixels
 requisitada = True
 
 #print('Resposta:', requisicoes.obterClassificacao(ra=RA, dec=DEC))
@@ -55,21 +39,15 @@ requisitada = True
 if requisitada:
     imagem = requisicoes.obterImagem(ra=ra, dec=dec, width=width, height=height)  # OBTEM IMAGEM DO REPOSITÓRIO SDSS (SKY SERVER)
 else:
-    imagem = cv2.imread('teste4.tif')
+    imagem = cv2.imread('teste2.png')
 
 imagem = np.array(imagem, dtype=np.uint8) # TRANSFORMAR EM 16 BITS SE A QUANTIDADE DE LABELS GERADAS NÃO FOR SUFICIENTE
 imagem = cv2.cvtColor(imagem, cv2.COLOR_BGR2RGB)
 imagem2 = copy(imagem)
-imagem3 = copy(imagem)
-imagem4 = copy(imagem)
 
 cv2.imshow('Imagem Trazida', imagem)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
-# COMEÇA A CONTABILIZAR O TEMPO DO ALGORITMO
-start = time.time()
-print('Start:', start)
 
 imagemCinza = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
 
@@ -79,13 +57,9 @@ imagemCinza = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
 limiar, imagemLimiarizada = cv2.threshold(imagemCinza,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 cv2.imwrite('limiarizacao.png', imagemLimiarizada.astype('uint8'))
 
-# CRIAR UMA CÓPIA DA IMAGEM LIMIARIZADA ROTULADA PARA A LIMPEZA DAS ESTRELAS NA IMAGEM FINAL
-# APLICAR A DILATAÇÃO NA CÓPIA E ROTULAR IGUAL A WATERSHED DEPOIS
-
 # TRANSFORMAÇÕES MORFOLÓGICAS
-kernel = np.ones((3, 3), np.float32) #Cojunto B do slide para o FECHAMENTO
+kernel = np.ones((3, 3), np.float32)
 imagemLimiarizada = cv2.morphologyEx(imagemLimiarizada, cv2.MORPH_CLOSE, kernel)
-# imagemLimiarizada = cv2.dilate(imagemLimiarizada, kernel, iterations = 1)
 
 # GERAR OUTRAS IMAGENS A PARTIR DA IMAGEM LIMIARIZADA
 print("Gerando imagem do mapa de distância da borda de cada objeto em relação ao centro do objeto...")
@@ -95,6 +69,15 @@ imagemBorda = buscaCaracteristicas.encontrarBorda(imagemLimiarizada)
 print("Gerando imagem dos pontos máximos locais e segmentando a imagem...")
 imagemPontosMax, imagemWatershed = rotular.localMaxWatershed(imagemCinza,imagemLimiarizada)
 
+#imagemWatershed = cv2.cvtColor(imagemWatershed, cv2.COLOR_BGR2GRAY)
+#imagemPontosMax = cv2.cvtColor(imagemPontosMax, cv2.COLOR_BGR2GRAY)
+
+#cv2.imwrite('Watershed.tif', imagemWatershed.astype('uint8'))
+cv2.imshow('Watershed', imagemWatershed.astype('uint8'))
+cv2.imwrite('watershedFirst.png', imagemWatershed.astype('uint8'))
+cv2.imshow('Pontos', imagemPontosMax.astype('uint8'))
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 
 imagemCaracteristicas = copy(imagemBorda) # Imagem da borda dos objetos com retangulo envolvente
 imagemClassificada = copy(imagemBorda) # Imagem da borda dos objetos com retangulo envolvente nos objetos classificados
@@ -134,22 +117,8 @@ labels, count = rotular.contar(altura, largura, imagemPontosMax) # Contar quanto
 dados = []
 centroides = []
 qtd_objetos = 0
-
-imagemWatershedColorida = cv2.cvtColor(imagemWatershed.astype('uint8'), cv2.COLOR_GRAY2RGB)
-
 # PARA CADA OBJETO ...
 for indice in range(len(labels)): #Para cada cor (label) | Cada objeto possui uma "label" que corresponde à cor do pixel desse objeto
-    R = randint(0, 254)
-    G = randint(0, 254)
-    B = randint(0, 254)
-    for y in range(altura):
-        for x in range(largura):
-            if imagemWatershedColorida[y][x][0] == labels[indice]:
-                imagemWatershedColorida[y][x][0] = R
-                imagemWatershedColorida[y][x][1] = G
-                imagemWatershedColorida[y][x][2] = B
-
-
 
     objeto = copy(modelo_objeto)
     posY, posX, area = buscaCaracteristicas.calcularCentroideArea(altura, largura, imagemWatershed, labels, indice)
@@ -178,8 +147,8 @@ for indice in range(len(labels)): #Para cada cor (label) | Cada objeto possui um
 
         pixels_borda, dist_pontos_borda = buscaCaracteristicas.assinatura(imagemLimiarizada, objeto)
         objeto["assinatura"] = np.var(dist_pontos_borda) # VARIANCIA DAS DISTANCIAS ATÉ A CENTROIDE
-        objeto["codigo_cadeia"] = buscaCaracteristicas.gerarCodigoCadeia(objeto, imagemBorda, pixels_borda)
-        objeto["codigo_cadeia"] = buscaCaracteristicas.normalizarCodigoCadeia(objeto)
+        #objeto["codigo_cadeia"] = buscaCaracteristicas.gerarCodigoCadeia(objeto, imagemBorda, pixels_borda)
+        #objeto["codigo_cadeia"] = buscaCaracteristicas.normalizarCodigoCadeia(objeto)
         #codigo = np.var(np.array(objeto["codigo_cadeia"]))
 
 
@@ -191,20 +160,23 @@ for indice in range(len(labels)): #Para cada cor (label) | Cada objeto possui um
         objetos.append(objeto)
 
         # AGREGA DADOS PARA APLICAÇÃO DO KMEANS
+        #dados.append([objeto["assinatura"] / len(objeto["area"]), objeto["compacidade"], objeto["excentricidade"], objeto["retangularidade"]])
+        #dados.append([len(objeto["eixoY"]), len(objeto["eixoX"])])
+        #dados.append([objeto["assinatura"] / len(objeto["area"]), objeto["compacidade"]])
+        #dados.append([objeto["variancia"]])
         if requisitada:
             dados.append([objeto["assinatura"] / len(objeto["area"]),objeto["compacidade"], objeto["excentricidade"], objeto["retangularidade"], objeto["variancia"]])
         else:
-            dados.append([objeto["assinatura"] / len(objeto["area"]), objeto["compacidade"], objeto["codigo_cadeia"], objeto["excentricidade"], objeto["retangularidade"], len(objeto["eixoY"]), len(objeto["eixoX"])])
+            dados.append([objeto["assinatura"] / len(objeto["area"]), objeto["compacidade"], objeto["excentricidade"], objeto["retangularidade"], len(objeto["eixoY"]), len(objeto["eixoX"])])
 
-        print('\nIndice:', objeto["indice"], 'Area:', objeto["area"],[objeto["variancia"], objeto["assinatura"] / len(objeto["area"]), objeto["codigo_cadeia"],objeto["compacidade"], objeto["excentricidade"], objeto["retangularidade"]])
+        print('\nIndice:', objeto["indice"], 'Area:', len(objeto["area"]),[objeto["variancia"], objeto["assinatura"] / len(objeto["area"]), objeto["codigo_cadeia"],objeto["compacidade"], objeto["excentricidade"], objeto["retangularidade"]])
 
     else: # APAGA OBJETOS COM AREA MENOR QUE 7 OU 9
         for posicao in objeto["area"]:
             # imagemLimiarizada[posicao[0]][posicao[1]] = 0
             # imagemDistancia[posicao[0]][posicao[1]] = 0
-            imagemPontosMax[posicao[0]][posicao[1]] = 0
-            imagemWatershed[posicao[0]][posicao[1]] = 0
-            imagemWatershedColorida[posicao[0]][posicao[1]] = 0
+            # imagemPontosMax[posicao[0]][posicao[1]] = 0
+            # imagemWatershed[posicao[0]][posicao[1]] = 0
             imagemCaracteristicas[posicao[0]][posicao[1]] = 0
             imagemClassificada[posicao[0]][posicao[1]] = 0
             imagemCinza[posicao[0]][posicao[1]] = 0
@@ -212,63 +184,27 @@ for indice in range(len(labels)): #Para cada cor (label) | Cada objeto possui um
             imagem2[posicao[0]][posicao[1]] = 0
 
 
-# cv2.imshow('Watershed', imagemWatershedColorida.astype('uint8'))
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
-
-# GERAÇÃO DE ACERTOS (VALIDAÇÃO)
 if requisitada:
-
-    classificacoes, classeEstrela, classeGalaxia, classificacoesReal, end = classificar.gerarAcertos(objetos, dados, altura, largura, ra, dec, qtd_objetos)
-
-    # TERMINA DE CONTABILIZAR O TEMPO DE EXECUÇÃO DO ALGORITMO
-    end = end
-    print('End:', end)
-    tempoFinal = str((end - start) / 60).split('.')
-    minutos = tempoFinal[0]
-    segundos_aux = 60 * float('0.' + tempoFinal[1])
-    segundos = str(segundos_aux).split('.')[0]
-    print("Tempo final (minutos:segundos):", minutos, ':', segundos)
+    classificacoes, classeEstrela, classeGalaxia, classificacoesReal = classificar.gerarAcertos(objetos, dados, altura, largura, ra, dec, qtd_objetos)
 
     print('Classificação gerada:', classificacoes)
     print('Classificação real:  ', classificacoesReal)
 
-    # DESENHA O RETANGULO ENVOLVENTE NOS OBJETOS CLASSIFICADOS REAL
-    imagem4 = buscaCaracteristicas.pintarRetanguloClassificado(imagem4, classificacoes, objetos)
-    imagem2 = buscaCaracteristicas.removerEstrelas(imagem2, classificacoes, objetos, classeEstrela, imagemPontosMax) # ARRUMAR O FATO DELE ESTAR REMOVENDO OS OBJETOS DETECTADOS COMO DESCONHECIDOS
-    buscaCaracteristicas.pintarRetanguloClassificadoKmeans(imagem3, classificacoes, objetos, classeGalaxia)
-
     matrizConfusao.gerarMatriz(classificacoesReal,classificacoes)
 
-    varianciaGalaxias = 0
-    galaxias = 0
-    varianciaEstrelas = 0
-    estrelas = 0
-    for objeto in objetos:
-        if 'GALAXY' in objeto["classificacao"]:
-            varianciaGalaxias += objeto['variancia']
-            galaxias += 1
-        elif 'STAR' in objeto["classificacao"]:
-            varianciaEstrelas += objeto['variancia']
-            estrelas += 1
-    print('Quantidade de Galaxias: ', galaxias,'Variancia Galaxias: ', varianciaGalaxias / galaxias, 'Quantidade de Estrelas: ', estrelas,'Variancia Estrelas: ', varianciaEstrelas / estrelas)
+    # DESENHA O RETANGULO ENVOLVENTE NOS OBJETOS CLASSIFICADOS REAL
+    imagemClassificadaReal = buscaCaracteristicas.pintarRetanguloClassificado(imagemClassificada, classificacoes, objetos)
 
+    buscaCaracteristicas.removerEstrelas(imagemCinza, classificacoes, objetos, classeEstrela) # ARRUMAR O FATO DELE ESTAR REMOVENDO OS OBJETOS DETECTADOS COMO DESCONHECIDOS
+    buscaCaracteristicas.pintarRetanguloClassificadoKmeans(imagemClassificada, classificacoes, objetos, classeGalaxia)
 else:
     classificacoes, classeEstrela, classeGalaxia = classificar.executar(objetos,dados,qtd_objetos)
 
     # DESENHA O RETANGULO ENVOLVENTE NOS OBJETOS CLASSIFICADOS REAL
-    imagem4 = buscaCaracteristicas.pintarRetanguloClassificado(imagem4, classificacoes, objetos)
-    imagem2 = buscaCaracteristicas.removerEstrelas(imagem2, classificacoes, objetos, classeEstrela)  # ARRUMAR O FATO DELE ESTAR REMOVENDO OS OBJETOS DETECTADOS COMO DESCONHECIDOS
-    buscaCaracteristicas.pintarRetanguloClassificadoKmeans(imagem3, classificacoes, objetos, classeGalaxia)
+    imagemClassificadaReal = buscaCaracteristicas.pintarRetanguloClassificado(imagemClassificada, classificacoes, objetos)
 
-    # TERMINA DE CONTABILIZAR O TEMPO DE EXECUÇÃO DO ALGORITMO
-    end = time.time()
-    print('End:', end)
-    tempoFinal = str((end - start) / 60).split('.')
-    minutos = tempoFinal[0]
-    segundos_aux = 60 * float('0.' + tempoFinal[1])
-    segundos = str(segundos_aux).split('.')[0]
-    print("Tempo final (minutos:segundos):", minutos, ':', segundos)
+    buscaCaracteristicas.removerEstrelas(imagemCinza, classificacoes, objetos, classeEstrela)  # ARRUMAR O FATO DELE ESTAR REMOVENDO OS OBJETOS DETECTADOS COMO DESCONHECIDOS
+    buscaCaracteristicas.pintarRetanguloClassificadoKmeans(imagemClassificada, classificacoes, objetos, classeGalaxia)
 
 
 # SALVAR IMAGENS RESULTANTES
@@ -278,31 +214,24 @@ cv2.imwrite('pontosMax.png', imagemPontosMax.astype('uint8'))
 #cv2.imwrite('caracteristicas.png', imagemCaracteristicas.astype('uint8')) # PINTA RETANGULO ENVOLVENTE EM TODOS OS OBJETOS
 cv2.imwrite('classificadas.png', imagemClassificada.astype('uint8'))
 cv2.imwrite('watershed.png', imagemWatershed.astype('uint8'))
-cv2.imwrite('watershedColorido.png', imagemWatershedColorida.astype('uint8'))
 cv2.imwrite('limiarizacao.png', imagemLimiarizada.astype('uint8'))
 cv2.imwrite('borda.png', imagemBorda.astype('uint8'))
 cv2.imwrite('cinza.png', imagemCinza.astype('uint8'))
-#cv2.imwrite('semEstrelas.png', imagemCinza.astype('uint8'))
-cv2.imwrite('semEstrelas.png', imagem2.astype('uint8'))
-cv2.imwrite('galaxiasRotuladas.png', imagem3.astype('uint8'))
-#cv2.imwrite('classificadasSDSS.png', imagemClassificadaReal.astype('uint8'))
-cv2.imwrite('classificadasSDSS.png', imagem4.astype('uint8'))
+cv2.imwrite('semEstrelas.png', imagemCinza.astype('uint8'))
+#cv2.imwrite('semEstrelas.png', imagem2.astype('uint8'))
+cv2.imwrite('classificadasSDSS.png', imagemClassificadaReal.astype('uint8'))
 
 # APRESENTAR IMAGENS RESULTANTES
 cv2.imshow('Limiarizacao', imagemLimiarizada.astype('uint8'))
-cv2.imshow('Borda', imagemBorda)
+#cv2.imshow('Borda', imagemBorda)
 #cv2.imshow('Caracteristicas', imagemCaracteristicas)
 #cv2.imshow('Cinza', imagemCinza)
-#cv2.imshow('Sem estrelas', imagemCinza.astype('uint8'))
-cv2.imshow('Sem estrelas', imagem2.astype('uint8'))
-cv2.imshow('Original', imagem.astype('uint8'))
-cv2.imshow('Galaxias Rotuladas', imagem3.astype('uint8'))
-if requisitada:
-    cv2.imshow('Classificadas SDSS', imagem4.astype('uint8'))
-#cv2.imshow('Classificados', imagemClassificada.astype('uint8'))
-#cv2.imshow('Classificados REAL', imagemClassificadaReal.astype('uint8'))
-#cv2.imshow('Watershed', imagemWatershed.astype('uint8'))
-#cv2.imshow('LocalMax', imagemPontosMax.astype('uint8'))
+cv2.imshow('Sem estrelas', imagemCinza.astype('uint8'))
+cv2.imshow('Com estrelas', imagem.astype('uint8'))
+cv2.imshow('Classificados', imagemClassificada.astype('uint8'))
+cv2.imshow('Classificados REAL', imagemClassificadaReal.astype('uint8'))
+cv2.imshow('Watershed', imagemWatershed.astype('uint8'))
+cv2.imshow('LocalMax', imagemPontosMax.astype('uint8'))
 #cv2.imshow('Distancia', imagemDistancia)
 
 cv2.waitKey(0)

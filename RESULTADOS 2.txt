@@ -1,71 +1,71 @@
-OBS: CALCULAR TEMPO DE EXECUÇÃO
+OBS: CALCULAR TEMPO DE EXECUÃ‡ÃƒO
 
-Imagem 512 x 512 e Objeto com tamanho mínimo de 9px ------------------------------------------
+Imagem 512 x 512 e Objeto com tamanho mÃ­nimo de 9px ------------------------------------------
 
 TOTAL DE OBJETOS: 50
 
 #sem a variancia (62%)
 [assinatura, compacidade, excentricidade, retangularidade] = 31 certas | 19 erradas
-(classe 1 == galáxias)
+(classe 1 == galÃ¡xias)
 
 #com a variancia (78%)
 [assinatura, compacidade, excentricidade, retangularidade, varincia] = 39 certas | 11 erradas
-(classe 0 == galáxias)
+(classe 0 == galÃ¡xias)
 
 #apenas a variancia (78%)
 [variancia] = 39 certas | 11 erradas
-(classe 0 == galáxias)
+(classe 0 == galÃ¡xias)
 
 
 
-Imagem 512 x 512 e Objeto com tamanho mínimo de 7px ------------------------------------------
+Imagem 512 x 512 e Objeto com tamanho mÃ­nimo de 7px ------------------------------------------
 
 TOTAL DE OBJETOS: 67
 
 #sem a variancia (52%)
 [assinatura, compacidade, excentricidade, retangularidade] = 35 certas | 32 erradas
-(classe 0 == galáxias)
+(classe 0 == galÃ¡xias)
 
 #com a variancia (68%)
 [assinatura, compacidade, excentricidade, retangularidade, varincia] = 46 certas | 21 erradas
-(classe 1 == galáxias)
+(classe 1 == galÃ¡xias)
 
 #apenas a variancia (68%)
 [variancia] = 46 certas | 21 erradas
-(classe 1 == galáxias)
+(classe 1 == galÃ¡xias)
 
 
 
-Imagem 800 x 800 e Objeto com tamanho mínimo de 9px ------------------------------------------
+Imagem 800 x 800 e Objeto com tamanho mÃ­nimo de 9px ------------------------------------------
 
 TOTAL DE OBJETOS: 126
 
 #sem a variancia (59%)
 [assinatura, compacidade, excentricidade, retangularidade] = 75 certas | 51 erradas
-(classe 1 == galáxias)
+(classe 1 == galÃ¡xias)
 
 #com a variancia (84%)
 [assinatura, compacidade, excentricidade, retangularidade, varincia] = 106 certas | 20 erradas
-(classe 1 == galáxias)
+(classe 1 == galÃ¡xias)
 
 #apenas a variancia (84%)
 [variancia] = 106 certas | 20 erradas
-(classe 1 == galáxias)
+(classe 1 == galÃ¡xias)
 
 
 
-Imagem 800 x 800 e Objeto com tamanho mínimo de 7px ------------------------------------------
+Imagem 800 x 800 e Objeto com tamanho mÃ­nimo de 7px ------------------------------------------
 
 TOTAL DE OBJETOS: 167
 
 #sem a variancia (58%)
 [assinatura, compacidade, excentricidade, retangularidade] = 97 certas | 70 erradas
-(classe 1 == galáxias)
+(classe 1 == galÃ¡xias)
 
 #com a variancia (80%)
 [assinatura, compacidade, excentricidade, retangularidade, varincia] = 134 certas | 33 erradas
-(classe 1 == galáxias)
+(classe 1 == galÃ¡xias)
 
 #apenas a variancia (80%)
 [variancia] = 134 certas | 33 erradas
-(classe 1 == galáxias)
+(classe 1 == galÃ¡xias)
