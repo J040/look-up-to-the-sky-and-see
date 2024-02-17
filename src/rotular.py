@@ -15,10 +15,20 @@ from scipy import ndimage as ndi
 from skimage.morphology import watershed
 
 def localMaxWatershed(imagemCinza, imagemLimiarizada):
-    imagem = copy(imagemLimiarizada)
-    local_maxi = peak_local_max(imagemCinza, indices=False, footprint=np.ones((6, 6)), labels=imagem)  # values are: false or true
-    imagemPontosMax = ndi.label(local_maxi)[0]
-    imagemWatershed = watershed(-imagemCinza, imagemPontosMax, mask=imagem)
+    # OLD CODE:
+    # local_maxi = peak_local_max(imagemCinza, indices=False, footprint=np.ones((6, 6)), labels=imagem)  # values are: false or true
+    # local_maxi = peak_local_max(imagemCinza, min_distance=6)  # values are: false or true
+    # imagemPontosMax = ndi.label(local_maxi)[0]
+    # imagemWatershed = watershed(-imagemCinza, imagemPontosMax, mask=imagem)
+
+    # NEW CODE:
+    distance = ndi.distance_transform_edt(imagem)
+    coords = peak_local_max(distance, footprint=np.ones((6, 6)), labels=imagem)
+    mask = np.zeros(distance.shape, dtype=bool)
+    mask[tuple(coords.T)] = True
+    imagemPontosMax, _ = ndi.label(mask)
+    imagemWatershed = watershed(-distance, imagemPontosMax, mask=imagem)
+
     cv2.imwrite("imagemWatershed.png", imagemWatershed)
     cv2.imwrite("imagemMaxLocal.png", imagemPontosMax)
 
