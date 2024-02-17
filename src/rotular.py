@@ -12,9 +12,12 @@ from copy import copy, deepcopy
 import random
 from skimage.feature import peak_local_max
 from scipy import ndimage as ndi
-from skimage.morphology import watershed
+from skimage.segmentation import watershed
+# from skimage.morphology import watershed
 
 def localMaxWatershed(imagemCinza, imagemLimiarizada):
+    imagem = copy(imagemLimiarizada)
+
     # OLD CODE:
     # local_maxi = peak_local_max(imagemCinza, indices=False, footprint=np.ones((6, 6)), labels=imagem)  # values are: false or true
     # local_maxi = peak_local_max(imagemCinza, min_distance=6)  # values are: false or true

@@ -41,8 +41,8 @@ def obterClassificacao(ra, dec, scale=1, radius=0.2):
     )
     soup = BeautifulSoup(resp.content, features="lxml")
     elem = soup.findAll('tr')
+    
     # print('TAMANHO DO BAGULHO:',len(elem))
-
     if len(elem) > 1 :
 
         return elem[2].findAll('td')[1].text
